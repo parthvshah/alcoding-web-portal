@@ -6,7 +6,8 @@ module.exports = (app) => {
 
     // API to add a Post to the database
     // author title and description are required to be sent in request body
-    // response returns id of the post, which can be added to the frontend, and sent back when we need to add a comment to the post
+    // response returns id of the post, which can be added to the frontend as an id to the posts div or something similar
+    // post_id needs to be sent back when we need to add a comment to the post
     app.post('/api/posts/add', function (req, res) {
         // check if valid author is being sent
         // make sure author is not blank
