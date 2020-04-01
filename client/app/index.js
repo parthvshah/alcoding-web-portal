@@ -19,6 +19,7 @@ import PublicProfile from '../app/components/Pages/Profile/PublicProfile';
 import Assignments from '../app/components/Pages/Assignments';
 import Contests from '../app/components/Pages/Contests';
 import Courses from '../app/components/Pages/Courses';
+import Evaluation from '../app/components/Pages/Evaluation';
 import NotFound from './components/App/NotFound';
 import SignupForm from '../app/components/Admin/SignupForm';
 import AssignmentAdd from '../app/components/Pages/Courses/AddAssignment'
@@ -58,6 +59,8 @@ render((
               <PrivateRoute exact path="/contests" component={Contests} />
 
               <PrivateRoute exact path="/courses" component={Courses} />
+
+              <PrivateRoute exact path="/evaluation" component={Evaluation} />
 
               <PrivateRoute exact path="/profile" component={Profile} />
 

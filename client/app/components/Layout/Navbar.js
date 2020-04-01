@@ -103,6 +103,9 @@ class NavbarClass extends Component {
           <NavItem>
             <NavLink tag={Link} to="/assignments" activeclassname="active">Assignments</NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to="/evaluation" activeclassname="active">Evaluation</NavLink>
+          </NavItem>
         </Nav>
         <hr/>
         <Nav className="ml-auto" navbar>
