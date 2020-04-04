@@ -17,25 +17,22 @@ const EvaluationSchema = new mongoose.Schema({
       default: ""
     }
   },
-  basicInfo: {
-    // Contains mutable info
-    email: {
-      type: String,
-      default: ""
-    },
-    phone: {
-      type: String,
-      default: ""
-    },
-    dob: {
-      type: Date,
-      default: Date.now()
-    }
+  assignment:{
+    type: String,
+    default: "",
+    required: true
   },
-  isDeleted: {
-    type: Boolean,
-    default: false
+  section: {
+    type: String,
+    default: "",
+    required: true
+  },
+  subject: {
+    type: String,
+    default: "",
+    required: true
   }
+  
 }, { strict: false, timestamps: true });
 
 

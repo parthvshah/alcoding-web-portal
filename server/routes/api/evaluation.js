@@ -1,7 +1,11 @@
 const User = require('../../models/User');
+const Evaluation = require('../../models/Evaluation');
 // Add models here
 var requireRole = require('../../middleware/Token').requireRole;
 var verifyUser = require('../../middleware/Token').verifyUser;
+// var privateKey = fs.readFileSync('server/sslcert/server.key', 'utf8'); //privatekey for jwt
+const config = require('../../../config/config');
+
 
 module.exports = (app) => {
   app.get('/api/contests/:userID/contenderInfo', function (req, res) {
@@ -48,6 +52,66 @@ module.exports = (app) => {
 
     })
   })
+
+
+// My stuff starts here
+app.put('/api/evaluation', function (req, res) {
+  // PUT http://localhost:8080/api/account/:userID/basicInfo
+  // var user_id = req.params.userID;
+  var usn = res.body.usn;
+  var name = res.body.name;
+  var section = res.body.section;
+
+  //Verify that userID is present as a parameter
+  // if (!user_id) {
+  //   return res.status(400).send({
+  //     success: false,
+  //     message: 'Error: userID parameter cannot be blank'
+  //   });
+  // }
+
+  // console.log("Request to update details of " + user_id);
+  // var update = req.body
+  Evaluation.insertOne(res.body, function(err, res){
+    if(err) throw err;
+    console.log("One document inserted");
+  })
+})
+//   User.findOneAndUpdate({
+//     _id: user_id
+//   }, {
+//       basicInfo: Object.assign({}, update)
+//     },
+//     (err) => {
+
+//       if (err) {
+//         return res.status(500).send({
+//           success: false,
+//           message: "Error: Server error"
+//         });
+//       } else {
+//         return res.status(200).send({
+//           success: true,
+//           message: "Details Updated!"
+//         });
+//       }
+//     })
+
+// }), //end of basic info endpoint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   app.get('/api/contests/updatedHandles', requireRole("admin"), function (req, res) {
     var file = path.join(dir, "handles.json");

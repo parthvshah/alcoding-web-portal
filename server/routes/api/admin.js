@@ -11,7 +11,7 @@ var dir = process.cwd() + '/../temp';
 var keyName = "inputFile";
 
 module.exports = (app) => {
-    app.post('/api/admin/signup', function (req, res) {
+    app.post('/api/admin/signup', requireRole("admin"), function (req, res) {
 
         var usn = req.body.usn;
         var firstName = req.body.firstName;
