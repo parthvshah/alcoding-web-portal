@@ -6,21 +6,10 @@ const EvaluationSchema = new mongoose.Schema({
     default: "",
     required: true
   },
-  name: {
-    firstName: {
-      type: String,
-      default: "",
-      required: true
-    },
-    lastName: {
-      type: String,
-      default: ""
-    }
-  },
   assignment:{
     type: String,
     default: "",
-    required: true
+    // required: true
   },
   section: {
     type: String,
@@ -30,7 +19,7 @@ const EvaluationSchema = new mongoose.Schema({
   subject: {
     type: String,
     default: "",
-    required: true
+    // required: true
   }
   
 }, { strict: false, timestamps: true });

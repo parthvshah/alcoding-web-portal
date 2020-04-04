@@ -68,57 +68,43 @@ handleUSNChange(event) {
 }
 
 handleSubmit(event){
-  console.log("hello");
-  // alert("heyyyy");
-  // alert("usn:" + this.state.usn);
   console.log("usn:" + this.state.usn);
   console.log("section:" + this.state.section);
   console.log("subject:" + this.state.subject);
   console.log("assignment:" + this.state.assignment);
-  var token = localStorage.getItem('token')
-  var userID = localStorage.getItem('user_id')
-  // var apiPath = '/api/evaluationStud/' + userID + '/details'
+  var token = localStorage.getItem('token');
+  var userID = localStorage.getItem('user_id');
   
   event.preventDefault();
+
   const body = {
     usn: this.state.usn,
-    name: this.state.name,
     section: this.state.section
   };
   //' + userID + '
   var apiPath = '/api/evaluation';
   axios.post(
     apiPath,
-    body)
-    // body,
-    // {
-    //     headers: {
-    //         'x-access-token': token,
-    //         'Content-Type': 'application/json'
-    //     }
-    // })
-    .then(function (response) {
-        if (!response.data.success) {
-            // TODO: throw appropriate error and redirect
-            console.log("Error: " + response.data);
-            return;
+    body,
+    {
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
         }
-        else {
-            // TODO: redirect to this page(profile)
-            console.log(response.data);
-            ToastStore.success('Successfully updated!');
+    }).then(function (response) {
+        if (response.data.success) {
+          console.log(response);
+          ToastStore.success('Successfully updated!');
         }
-    })
-    .catch(function (error) {
+    }).catch(function (error) {
         // TODO: Try again after sometime? 
-        console.log('error is ', error);
+        console.log('Caught here: ', error);
     });
   
 
 }
 
   render() {
-    // return <h2>I am a Car!</h2>;
     return (
       <div className="App">
         <div className="page-header">
@@ -129,18 +115,6 @@ handleSubmit(event){
   <input type="text" id="inputMDEx" className="form-control" value={this.state.usn} onChange={this.handleUSNChange.bind(this)}/>
   <label>Enter your USN</label>
 </div>
-{/* <Dropdown> 
-  <Dropdown.Toggle variant="info" id="dropdown-basic">
-    Section
-  </Dropdown.Toggle>
-
-  <Dropdown.Menu>
-    <Dropdown.Item active={this.state.value === "Action"} onClick={this.handleSectionChange.bind(this)}>Action</Dropdown.Item>
-    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-  </Dropdown.Menu>
-</Dropdown> */}
-{/* <form> */}
     <div className="form-group">
       <label>Section</label>
       <select className="form-control" id="sel1" name="section" value={this.state.section} onChange={this.handleSectionChange.bind(this)}>
@@ -173,90 +147,6 @@ handleSubmit(event){
 
       </div>
     );
-
-    // const data = this.state.globalRankList;
-
-    // const columns =
-    //   [
-    //     {
-    //       Header: "Rank",
-    //       id: "row",
-    //       maxWidth: 65,
-    //       filterable: false,
-    //       Cell: (row) => {
-    //         return <div>{row.index + 1}</div>;
-    //       }
-    //     },
-    //     {
-    //       Header: "Name",
-    //       accessor: "name"
-    //     },
-    //     {
-    //       Header: "USN",
-    //       accessor: "usn",
-    //       maxWidth: 200,
-    //     },
-    //     {
-    //       Header: "Contests",
-    //       accessor: "timesPlayed",
-    //       maxWidth: 100,
-    //     },
-    //     {
-    //       Header: "Rating",
-    //       accessor: "rating",
-    //       maxWidth: 150,
-    //     },
-    //     {
-    //       Header: "Best",
-    //       accessor: "best",
-    //       maxWidth: 150,
-    //     }
-    //   ]
-
-    // const staticText = {
-    //   aboutUs: "Mithali is cute.",
-    //   latestNews: "1 October 2018: Release of the Alcoding Club Platform which will enable students of the department to view Global Rankings, upcoming contests and any messages.",
-    //   announcements: "The ACM International Collegiate Programming Contest (ACM ICPC) is the largest collegiate programming contest being organized all over the world every year. The ACM ICPC is an activity of the ACM that provides college students with an opportunity to demonstrate and sharpen their problem-solving and computing skills. The contest is considered as the \"Olympiad of Computer Programming\".  For more information about ACM ICPC, visit https://icpc.baylor.edu"
-    // }
-
-    // return (
-    //   <div>
-    //       <div className="masthead-followup row m-0 bg-light mb-4" style={{ "borderRadius": 5 }}>
-    //         <div className="col-12 col-md-4 p-3 p-md-8 border-right">
-    //           <h3 className="text-center">About Us</h3>
-    //           <p></p><p className="text-justify">{staticText.aboutUs}</p>
-    //         </div>
-    //         <div className="col-12 col-md-4 p-3 p-md-8 border-right">
-    //         <h3 className="text-center">Latest News</h3>
-    //           <p></p><p className="text-justify">{staticText.latestNews}</p>
-    //         </div>
-    //         <div className="col-12 col-md-4 p-3 p-md-">
-    //         <h3 className="text-center">Announcements</h3>
-    //           <p></p><p className="text-justify">{staticText.announcements}</p>
-    //       </div>
-    //     </div>
-    //     <div className="jumbotron pt-3 pb-2 bg-light">
-    //       <div className='display-4 mb-3'>Global Rank List</div>
-    //       <br />
-    //       <ReactTable
-    //         loading={this.state.loading}
-    //         data={data}
-    //         columns={columns}
-    //         defaultSorted={[
-    //           {
-    //             id: "rating",
-    //             desc: true
-    //           }
-    //         ]}
-    //         defaultPageSize={10}
-    //         index=""
-    //         viewIndex=""
-    //         className="-striped -highlight"
-    //       />
-    //       <br />
-    //     </div>
-    //   </div>
-    // );
   }
 }
 
