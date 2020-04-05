@@ -64,19 +64,17 @@ module.exports = (app) => {
   //           }
   //     }
   // )
-  Evaluation.findOneAndUpdate(
-    {creator:{assignmentID: assignmentIDStud}},
+  Evaluation.findOneAndUpdate({
+      'creator.assignmentID': assignmentIDStud
+    },
     {
       $push:{
-        submission:
-              {
-                  usn: usn,
-                  ans:ans
-
-              }
+        submission:{
+            usn: usn,
+            ans: ans
+        }
             
       }
-      
     },
     (err, resp)=>{
       if (err) {
@@ -85,7 +83,6 @@ module.exports = (app) => {
               message: 'Error: Server Error.'
             });
           } else {
-            console.log(resp);
             return res.status(200).send({
               success: true,
               message: 'success'
