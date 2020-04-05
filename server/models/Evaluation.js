@@ -20,7 +20,11 @@ const EvaluationSchema = new mongoose.Schema({
     type: String,
     default: "",
     // required: true
-  }
+  },
+  sampleAns: {
+    type: String,
+    default:""
+  },
   
 }, { strict: false, timestamps: true });
 

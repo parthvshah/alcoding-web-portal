@@ -22,7 +22,11 @@ class Evaluation extends Component {
       usn:"",
       section:"",
       subject:"", 
-      assignment:""
+      assignment:"",
+      subjectTeacher:"",
+      sectionTeacher:"",
+      searchUSN:"",
+      sampleAns:""
     };
     // this.updateSection = this.updateSection.bind(this);
     // this.updateSubject = this.updateSubject.bind(this);
@@ -79,7 +83,9 @@ handleSubmit(event){
 
   const body = {
     usn: this.state.usn,
-    section: this.state.section
+    section: this.state.section,
+    subject:this.state.subject,
+    assignment:this.state.assignment
   };
   //' + userID + '
   var apiPath = '/api/evaluation';
@@ -101,6 +107,65 @@ handleSubmit(event){
         console.log('Caught here: ', error);
     });
   
+
+}
+
+handleSampleAnsChange(event){
+  this.setState({sampleAns: event.target.value});
+  // alert("hey there");
+}
+
+handleSearchUSNChange(event){
+  this.setState({searchUSN: event.target.value});
+}
+
+handleSectionTeacherChange(event){
+  this.setState({sectionTeacher: event.target.value});
+}
+
+handleSubjectTeacherChange(event){
+  this.setState({subjectTeacher: event.target.value});
+}
+
+
+
+
+
+
+
+handleSubmitTeacher(event){
+  var token = localStorage.getItem('token');
+  var userID = localStorage.getItem('user_id');
+  console.log(this.state.searchUSN);
+  console.log(this.state.sectionTeacher);
+  console.log(this.state.subjectTeacher);
+  console.log(this.state.sampleAns);
+  event.preventDefault();
+  const body = {
+    searchUSN: this.state.searchUSN,
+    sectionTeacher: this.state.sectionTeacher,
+    subjectTeacher:this.state.subjectTeacher,
+    sampleAns:this.state.sampleAns
+  };
+  var apiPath = '/api/evaluation/teacher';
+  axios.post(
+    apiPath,
+    body,
+    {
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response) {
+        if (response.data.success) {
+          console.log(response);
+          ToastStore.success('Successfully updated!');
+        }
+    }).catch(function (error) {
+        // TODO: Try again after sometime? 
+        console.log('Caught here: ', error);
+    });
+
 
 }
 
@@ -129,7 +194,7 @@ handleSubmit(event){
 
 <div className="form-group">
       <label>Subject</label>
-      <select className="form-control" id="sel1" name="subjeect" value={this.state.subject} onChange={this.handleSubjectChange.bind(this)}>
+      <select className="form-control" id="sel1" name="subject" value={this.state.subject} onChange={this.handleSubjectChange.bind(this)}>
         <option value="CC">CC</option>
         <option value="WT-2">WT-2</option>
         <option value="CD">CD</option>
@@ -144,6 +209,68 @@ handleSubmit(event){
  <input type="submit" className="btn btn-info" value="Submit"/>
 {/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
 </form>
+
+
+
+
+
+
+
+
+
+
+
+{/* Teacher part starts here */}
+
+
+
+
+
+
+
+
+
+<div className="page-header">
+    <h1>Hey {this.state.name}</h1>      
+    </div>
+    <form onSubmit={this.handleSubmitTeacher.bind(this)}>
+    <div className="form-group">
+      <label>Section</label>
+      <select className="form-control" id="sel1" name="sectionTeacher" value={this.state.sectionTeacher} onChange={this.handleSectionTeacherChange.bind(this)}>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+      </div>
+{/* </form> */}
+<br/>
+
+<div className="form-group">
+      <label>Subject</label>
+      <select className="form-control" id="sel1" name="subjectTeacher" value={this.state.subjectTeacher} onChange={this.handleSubjectTeacherChange.bind(this)}>
+        <option value="CC">CC</option>
+        <option value="WT-2">WT-2</option>
+        <option value="CD">CD</option>
+        <option value="TDL">TDL</option>
+      </select>
+      </div>
+      
+
+      <div class="form-group purple-border">
+  <label for="exampleFormControlTextarea4">Sample Answer</label>
+  <textarea class="form-control" id="exampleFormControlTextarea4" rows="3" name="sampleAns" value={this.state.sampleAns} onInput={this.handleSampleAnsChange.bind(this)}></textarea>
+</div>
+<div className="md-form active-pink active-pink-2 mb-3 mt-0">
+  <input className="form-control" type="text" placeholder="Search for a USN" aria-label="Search" name="searchUSN" value={this.state.searchUSN} onChange={this.handleSearchUSNChange.bind(this)}/>
+  </div>
+ <input type="submit" className="btn btn-info" value="Submit"/>
+{/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
+</form>
+
+
+<ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
+
 
       </div>
     );
