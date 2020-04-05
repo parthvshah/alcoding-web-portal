@@ -1,32 +1,42 @@
 const mongoose = require('mongoose');
 
 const EvaluationSchema = new mongoose.Schema({
-  usn: {
-    type: String,
-    default: "",
-    required: true
+  creator: {
+    assignmentID: {
+      type: String,
+      required: true
+    },
+    course: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    maxMarks: {
+      type: Number
+    },
+    question: {
+      type: String,
+      required: true
+    },
+    sampleAns: {
+      type: String,
+      required: true
+    }
   },
-  assignment:{
-    type: String,
-    default: "",
-    // required: true
-  },
-  section: {
-    type: String,
-    default: "",
-    required: true
-  },
-  subject: {
-    type: String,
-    default: "",
-    // required: true
-  },
-  sampleAns: {
-    type: String,
-    default:""
-  },
-  
-}, { strict: false, timestamps: true });
+  submission: [{
+    usn: {
+      type: String,
+    },
+    ans: {
+      type: String,
+    },
+    marksObtained: {
+      type: Number,
+      default: -1
+    }
+  }]
+});
 
 
 module.exports = mongoose.model('Evaluation', EvaluationSchema);
