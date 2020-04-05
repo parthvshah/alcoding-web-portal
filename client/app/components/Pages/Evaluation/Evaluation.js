@@ -20,13 +20,17 @@ class Evaluation extends Component {
       isLoading: true,
       name:"", 
       usn:"",
-      section:"",
-      subject:"", 
-      assignment:"",
-      subjectTeacher:"",
-      sectionTeacher:"",
-      searchUSN:"",
-      sampleAns:""
+      assignmentIDStud:"",
+      // section:"",
+      // subject:"", 
+      ans:"",
+      //Teacher section
+      sampleAns:"",
+      assignmentID:"",
+      assignmentName:"",
+      course:"",
+      question:"",
+      maxMarks:""
     };
     // this.updateSection = this.updateSection.bind(this);
     // this.updateSubject = this.updateSubject.bind(this);
@@ -55,27 +59,31 @@ class Evaluation extends Component {
         })
 }
 
-handleSectionChange(event) {
-  this.setState({section: event.target.value});
-}
+// handleSectionChange(event) {
+//   this.setState({section: event.target.value});
+// }
 
-handleSubjectChange(event) {
-  this.setState({subject: event.target.value});
-}
+// handleSubjectChange(event) {
+//   this.setState({subject: event.target.value});
+// }
 
 handleAssignmentChange(event) {
-  this.setState({assignment: event.target.value});
+  this.setState({ans: event.target.value});
 }
 
 handleUSNChange(event) {
   this.setState({usn: event.target.value});
 }
 
+handleAssignmentIDStudChange(event){
+  this.setState({assignmentIDStud: event.target.value});
+}
 handleSubmit(event){
   console.log("usn:" + this.state.usn);
-  console.log("section:" + this.state.section);
-  console.log("subject:" + this.state.subject);
-  console.log("assignment:" + this.state.assignment);
+  console.log("assignmentIDStud:" + this.state.assignmentIDStud);
+  // console.log("section:" + this.state.section);
+  // console.log("subject:" + this.state.subject);
+  console.log("assignment:" + this.state.ans);
   var token = localStorage.getItem('token');
   var userID = localStorage.getItem('user_id');
   
@@ -83,9 +91,10 @@ handleSubmit(event){
 
   const body = {
     usn: this.state.usn,
-    section: this.state.section,
-    subject:this.state.subject,
-    assignment:this.state.assignment
+    // section: this.state.section,
+    // subject:this.state.subject,
+    ans:this.state.ans,
+    assignmentIDStud: this.state.assignmentIDStud
   };
   //' + userID + '
   var apiPath = '/api/evaluation';
@@ -110,42 +119,72 @@ handleSubmit(event){
 
 }
 
+
 handleSampleAnsChange(event){
   this.setState({sampleAns: event.target.value});
-  // alert("hey there");
+  // alert(sampleAns)
+  // alert(event.target.value);
 }
 
-handleSearchUSNChange(event){
-  this.setState({searchUSN: event.target.value});
+handleAssignmentIDChange(event){
+  this.setState({assignmentID: event.target.value});
 }
 
-handleSectionTeacherChange(event){
-  this.setState({sectionTeacher: event.target.value});
+handleAssignmentNameChange(event){
+  this.setState({assignmentName: event.target.value});
 }
 
-handleSubjectTeacherChange(event){
-  this.setState({subjectTeacher: event.target.value});
+handleCourseChange(event){
+  this.setState({course: event.target.value});
+}
+
+handleQuestionChange(event){
+  this.setState({question: event.target.value});
+  // alert(event.target.value);
+}
+
+handleMaxMarksChange(event){
+  this.setState({maxMarks: event.target.value});
 }
 
 
 
+
+handleAutoEvaluate(event){
+  alert("hey there!!!!");
+}
 
 
 
 
 handleSubmitTeacher(event){
+  // alert("heello");
+  
+  console.log(this.state.sampleAns);
+  console.log(this.state.assignmentID);
+  console.log(this.state.assignmentName);
+  console.log(this.state.course);
+  console.log(this.state.question);
+  console.log(this.state.maxMarks);
+  event.preventDefault();
+  
   var token = localStorage.getItem('token');
   var userID = localStorage.getItem('user_id');
-  console.log(this.state.searchUSN);
-  console.log(this.state.sectionTeacher);
-  console.log(this.state.subjectTeacher);
-  console.log(this.state.sampleAns);
-  event.preventDefault();
+  
   const body = {
-    searchUSN: this.state.searchUSN,
-    sectionTeacher: this.state.sectionTeacher,
-    subjectTeacher:this.state.subjectTeacher,
-    sampleAns:this.state.sampleAns
+//       sampleAns:"",
+//       assignmentID:"",
+//       assignmentName:"",
+//       course:"",
+//       question:"",
+//       maxMarks:""
+    sampleAns:this.state.sampleAns,
+    assignmentID:this.state.assignmentID,
+    name:this.state.assignmentName,
+    course:this.state.course,
+    question:this.state.question,
+    maxMarks:this.state.maxMarks
+
   };
   var apiPath = '/api/evaluation/teacher';
   axios.post(
@@ -180,7 +219,15 @@ handleSubmitTeacher(event){
   <input type="text" id="inputMDEx" className="form-control" value={this.state.usn} onChange={this.handleUSNChange.bind(this)}/>
   <label>Enter your USN</label>
 </div>
-    <div className="form-group">
+
+{/* Getting assignmentID */}
+<div className="md-form input-group mb-3">
+  <div className="input-group-prepend">
+    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
+  </div>
+  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentIDStud" value={this.state.assignmentIDStud} onChange={this.handleAssignmentIDStudChange.bind(this)} />
+  </div>
+    {/* <div className="form-group">
       <label>Section</label>
       <select className="form-control" id="sel1" name="section" value={this.state.section} onChange={this.handleSectionChange.bind(this)}>
         <option value="A">A</option>
@@ -188,11 +235,11 @@ handleSubmitTeacher(event){
         <option value="C">C</option>
         <option value="D">D</option>
       </select>
-      </div>
+      </div> */}
 {/* </form> */}
 <br/>
 
-<div className="form-group">
+{/* <div className="form-group">
       <label>Subject</label>
       <select className="form-control" id="sel1" name="subject" value={this.state.subject} onChange={this.handleSubjectChange.bind(this)}>
         <option value="CC">CC</option>
@@ -200,11 +247,11 @@ handleSubmitTeacher(event){
         <option value="CD">CD</option>
         <option value="TDL">TDL</option>
       </select>
-      </div>
+      </div> */}
 
        <div className="form-group purple-border">
   <label> Submit your assignment here</label>
-  <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="assignment" value={this.state.assignment} onChange={this.handleAssignmentChange.bind(this)}></textarea>
+  <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="ans" value={this.state.ans} onChange={this.handleAssignmentChange.bind(this)}></textarea>
 </div>
  <input type="submit" className="btn btn-info" value="Submit"/>
 {/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
@@ -231,40 +278,90 @@ handleSubmitTeacher(event){
 
 
 <div className="page-header">
-    <h1>Hey {this.state.name}</h1>      
+    <h1>Hey {this.state.name}</h1> 
+    <p>Create the assignment here</p>     
     </div>
-    <form onSubmit={this.handleSubmitTeacher.bind(this)}>
-    <div className="form-group">
-      <label>Section</label>
-      <select className="form-control" id="sel1" name="sectionTeacher" value={this.state.sectionTeacher} onChange={this.handleSectionTeacherChange.bind(this)}>
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-      </select>
-      </div>
-{/* </form> */}
-<br/>
+    
+      {/* Form starts here */}
 
-<div className="form-group">
-      <label>Subject</label>
-      <select className="form-control" id="sel1" name="subjectTeacher" value={this.state.subjectTeacher} onChange={this.handleSubjectTeacherChange.bind(this)}>
+    <form onSubmit={this.handleSubmitTeacher.bind(this)}>
+
+      {/* Getting assignment ID */}
+
+
+    <div className="md-form input-group mb-3">
+  <div className="input-group-prepend">
+    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
+  </div>
+  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentID" value={this.state.assignmentID} onChange={this.handleAssignmentIDChange.bind(this)} />
+  </div>
+
+    {/* Getting assignment name */}
+
+    <div className="md-form input-group mb-3">
+  <div className="input-group-prepend">
+    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment Name: </span>
+  </div>
+  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentName" value={this.state.assignmentName} onChange={this.handleAssignmentNameChange.bind(this)}/>
+  </div>
+
+  {/* Getting maximum marks */}
+
+  <div className="md-form input-group mb-3">
+  <div className="input-group-prepend">
+    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Maximum Marks: </span>
+  </div>
+  <input type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="maxMarks" value={this.state.maxMarks} onChange={this.handleMaxMarksChange.bind(this)}/>
+  </div>
+
+  {/* Getting course  */}
+
+  <div className="form-group">
+      <label>Course</label>
+      {/* <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Course</span> */}
+      <select className="form-control" id="sel1" name="course" value={this.state.course} onChange={this.handleCourseChange.bind(this)}>
         <option value="CC">CC</option>
         <option value="WT-2">WT-2</option>
         <option value="CD">CD</option>
         <option value="TDL">TDL</option>
       </select>
       </div>
-      
 
-      <div class="form-group purple-border">
-  <label for="exampleFormControlTextarea4">Sample Answer</label>
-  <textarea class="form-control" id="exampleFormControlTextarea4" rows="3" name="sampleAns" value={this.state.sampleAns} onInput={this.handleSampleAnsChange.bind(this)}></textarea>
+  
+      {/* Getting the question */}
+<div className="form-group green-border-focus">
+  <label>Question</label>
+  <textarea className="form-control" id="exampleFormControlTextarea5" rows="3" name="question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)}></textarea>
 </div>
-<div className="md-form active-pink active-pink-2 mb-3 mt-0">
-  <input className="form-control" type="text" placeholder="Search for a USN" aria-label="Search" name="searchUSN" value={this.state.searchUSN} onChange={this.handleSearchUSNChange.bind(this)}/>
+      
+      {/* Getting the sample answer */}
+
+      <div className="form-group purple-border">
+  <label>Sample Answer</label>
+  <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="sampleAns" value={this.state.sampleAns} onInput={this.handleSampleAnsChange.bind(this)}></textarea>
+</div>
+
+
+ {/* The create button and the auto evaluate button */}
+
+
+ <div className="container">
+  <div className="row">
+    <div className="col-12 col-sm-6 col-md-6">
+        <button className="btn btn-success btn-lg" type="submit">Create </button>
+    </div>
+    <div className="col-12 col-sm-6 col-md-6">
+
+      {/* Auto evaluate button */}
+
+
+      {/* <form onSubmit={this.handleAutoEvaluate.bind(this)}>
+        <button className="btn btn-info btn-lg" type="submit">Auto Evaluate </button>
+       </form> */}
+       <input className="btn btn-info btn-lg" type="submit" value="Auto Evaluate"/>
+    </div>
   </div>
- <input type="submit" className="btn btn-info" value="Submit"/>
+</div>
 {/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
 </form>
 

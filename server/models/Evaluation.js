@@ -13,7 +13,8 @@ const EvaluationSchema = new mongoose.Schema({
       type: String
     },
     maxMarks: {
-      type: Number
+      type: Number,
+      required: true
     },
     question: {
       type: String,
