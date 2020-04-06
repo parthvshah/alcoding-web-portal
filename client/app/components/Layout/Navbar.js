@@ -94,7 +94,7 @@ class NavbarClass extends Component {
     const authLinks = (
       <Collapse isOpen={this.state.navbarIsOpen} navbar>
         <Nav className="mr-auto" navbar>
-          <NavItem>
+          {/* <NavItem>
             <NavLink tag={Link} to="/contests" activeclassname="active">Contests</NavLink>
           </NavItem>
           <NavItem>
@@ -102,9 +102,12 @@ class NavbarClass extends Component {
           </NavItem>
           <NavItem>
             <NavLink tag={Link} to="/assignments" activeclassname="active">Assignments</NavLink>
-          </NavItem>
+          </NavItem> */}
           <NavItem>
             <NavLink tag={Link} to="/evaluation" activeclassname="active">Evaluation</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={Link} to="/showmarks" activeclassname="active">Marks</NavLink>
           </NavItem>
         </Nav>
         <hr/>
@@ -172,7 +175,7 @@ class NavbarClass extends Component {
     return (
       <Navbar color="navbar-dark fixed-top" dark expand="md" className="mb-4">
       <Container className="pb-2 pt-2">
-          <NavbarBrand tag={Link} to="/">The Alcoding Club</NavbarBrand>
+          <NavbarBrand tag={Link} to="/">The Auto Evaluation Guys</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           {isAuthenticated ? authLinks : guestLinks}
       </Container>

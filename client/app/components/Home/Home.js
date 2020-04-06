@@ -89,9 +89,9 @@ class Home extends Component {
       ]
 
     const staticText = {
-      aboutUs: "ALCODING Club - a club of ALgorithms and CODING enthusiasts in the department of Computer Science & Engineering, PES University. It is founded and led by Prof. Channa Bankapur to encourage and keep up the coding culture in the campus.",
-      latestNews: "1 October 2018: Release of the Alcoding Club Platform which will enable students of the department to view Global Rankings, upcoming contests and any messages.",
-      announcements: "The ACM International Collegiate Programming Contest (ACM ICPC) is the largest collegiate programming contest being organized all over the world every year. The ACM ICPC is an activity of the ACM that provides college students with an opportunity to demonstrate and sharpen their problem-solving and computing skills. The contest is considered as the \"Olympiad of Computer Programming\".  For more information about ACM ICPC, visit https://icpc.baylor.edu"
+      aboutUs: "We are a team that provides auto evaluation services. As of our beta release, maximum marks can be changed! Try it today. In our next release; set custom weights for different evaluation methods.",
+      latestNews: "We use Natural Language Processing (NLP) techniques to auto evaluate student answers. This can be used for tests or assignments. The auto evaluation is performed on a sample answer and uses Jaccard Similarity and Cosine Distance.",
+      announcements: "The test assignments are now available for view and submission. Marks will be displayed as auto evaluation is conducted. Head over to the respective pages to interact with our service."
     }
 
     return (
@@ -102,7 +102,7 @@ class Home extends Component {
               <p></p><p className="text-justify">{staticText.aboutUs}</p>
             </div>
             <div className="col-12 col-md-4 p-3 p-md-8 border-right">
-            <h3 className="text-center">Latest News</h3>
+            <h3 className="text-center">Methodology</h3>
               <p></p><p className="text-justify">{staticText.latestNews}</p>
             </div>
             <div className="col-12 col-md-4 p-3 p-md-">
@@ -110,7 +110,7 @@ class Home extends Component {
               <p></p><p className="text-justify">{staticText.announcements}</p>
           </div>
         </div>
-        <div className="jumbotron pt-3 pb-2 bg-light">
+        {/* <div className="jumbotron pt-3 pb-2 bg-light">
           <div className='display-4 mb-3'>Global Rank List</div>
           <br />
           <ReactTable
@@ -129,7 +129,7 @@ class Home extends Component {
             className="-striped -highlight"
           />
           <br />
-        </div>
+        </div> */}
       </div>
     );
   }
