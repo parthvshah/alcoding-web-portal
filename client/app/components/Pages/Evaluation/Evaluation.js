@@ -21,6 +21,7 @@ class Evaluation extends Component {
       name:"", 
       usn:"",
       assignmentIDStud:"",
+      role: '',
       // section:"",
       // subject:"", 
       ans:"",
@@ -42,6 +43,33 @@ class Evaluation extends Component {
     var self = this;
     var token = localStorage.getItem('token')
     var userID = localStorage.getItem('user_id')
+
+    var apiPath = '/api/account/' + userID + '/details'
+    axios.get(apiPath, {
+      headers: {
+        'x-access-token': token,
+      }
+    })
+      .then(function (response) {
+        if (!response.data.success) {
+          // TODO: throw appropriate error and redirect
+          console.log("Error1: " + response.data);
+          return;
+        }
+        var data = response.data;
+        self.setState({
+          role: data.user.role
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+        if (error.response) {
+          if (error.response.status) {
+            alert("Session timed out.");
+            window.location.href = '/';
+          }
+        }
+      });
 
     var apiPath = '/api/account/' + userID + '/details';
     _API_CALL(apiPath, "GET", {}, token)
@@ -209,168 +237,133 @@ handleSubmitTeacher(event){
 }
 
   render() {
-    return (
+    let content;
+
+    const studContent = (
       <div className="App">
         <div className="page-header">
-    <h1>Hey {this.state.name}</h1>      
-    </div>
-    <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className="md-form">
-  <input type="text" id="inputMDEx" className="form-control" value={this.state.usn} onChange={this.handleUSNChange.bind(this)}/>
-  <label>Enter your USN</label>
-</div>
+          <h1>Hey {this.state.name}</h1>      
+        </div>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <div className="md-form">
+            <input type="text" id="inputMDEx" className="form-control" value={this.state.usn} onChange={this.handleUSNChange.bind(this)}/>
+            <label>Enter your USN</label>
+          </div>
 
-{/* Getting assignmentID */}
-<div className="md-form input-group mb-3">
-  <div className="input-group-prepend">
-    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
+          {/* Getting assignmentID */}
+          <div className="md-form input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
+            </div>
+            <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentIDStud" value={this.state.assignmentIDStud} onChange={this.handleAssignmentIDStudChange.bind(this)} />
+          </div>
+          <br/>
+
+        <div className="form-group purple-border">
+          <label> Submit your assignment here</label>
+          <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="ans" value={this.state.ans} onChange={this.handleAssignmentChange.bind(this)}></textarea>
+        </div>
+        <input type="submit" className="btn btn-info" value="Submit"/>
+          {/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
+      </form>
   </div>
-  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentIDStud" value={this.state.assignmentIDStud} onChange={this.handleAssignmentIDStudChange.bind(this)} />
-  </div>
-    {/* <div className="form-group">
-      <label>Section</label>
-      <select className="form-control" id="sel1" name="section" value={this.state.section} onChange={this.handleSectionChange.bind(this)}>
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-      </select>
-      </div> */}
-{/* </form> */}
-<br/>
+    );
 
-{/* <div className="form-group">
-      <label>Subject</label>
-      <select className="form-control" id="sel1" name="subject" value={this.state.subject} onChange={this.handleSubjectChange.bind(this)}>
-        <option value="CC">CC</option>
-        <option value="WT-2">WT-2</option>
-        <option value="CD">CD</option>
-        <option value="TDL">TDL</option>
-      </select>
-      </div> */}
-
-       <div className="form-group purple-border">
-  <label> Submit your assignment here</label>
-  <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="ans" value={this.state.ans} onChange={this.handleAssignmentChange.bind(this)}></textarea>
-</div>
- <input type="submit" className="btn btn-info" value="Submit"/>
-{/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
-</form>
-
-
-
-
-
-
-
-
-
-
-
-{/* Teacher part starts here */}
-
-
-
-
-
-
-
-
-
-<div className="page-header">
-    <h1>Hey {this.state.name}</h1> 
-    <p>Create the assignment here</p>     
-    </div>
-    
+    const profContent = (
+      <div className="App">
+      <div className="page-header">
+        <h1>Hey {this.state.name}</h1> 
+        <p>Create the assignment here</p>     
+      </div>
+      
       {/* Form starts here */}
 
-    <form onSubmit={this.handleSubmitTeacher.bind(this)}>
+      <form onSubmit={this.handleSubmitTeacher.bind(this)}>
 
       {/* Getting assignment ID */}
 
 
-    <div className="md-form input-group mb-3">
-  <div className="input-group-prepend">
-    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
-  </div>
-  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentID" value={this.state.assignmentID} onChange={this.handleAssignmentIDChange.bind(this)} />
-  </div>
+      <div className="md-form input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment ID: </span>
+        </div>
+        <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentID" value={this.state.assignmentID} onChange={this.handleAssignmentIDChange.bind(this)} />
+      </div>
 
-    {/* Getting assignment name */}
+      {/* Getting assignment name */}
 
-    <div className="md-form input-group mb-3">
-  <div className="input-group-prepend">
-    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment Name: </span>
-  </div>
-  <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentName" value={this.state.assignmentName} onChange={this.handleAssignmentNameChange.bind(this)}/>
-  </div>
+      <div className="md-form input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Assignment Name: </span>
+        </div>
+        <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="assignmentName" value={this.state.assignmentName} onChange={this.handleAssignmentNameChange.bind(this)}/>
+      </div>
 
-  {/* Getting maximum marks */}
+      {/* Getting maximum marks */}
 
-  <div className="md-form input-group mb-3">
-  <div className="input-group-prepend">
-    <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Maximum Marks: </span>
-  </div>
-  <input type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="maxMarks" value={this.state.maxMarks} onChange={this.handleMaxMarksChange.bind(this)}/>
-  </div>
+      <div className="md-form input-group mb-3">
+        <div className="input-group-prepend">
+          <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Maximum Marks: </span>
+        </div>
+        <input type="number" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default" name="maxMarks" value={this.state.maxMarks} onChange={this.handleMaxMarksChange.bind(this)}/>
+      </div>
 
-  {/* Getting course  */}
+      {/* Getting course  */}
 
-  <div className="form-group">
-      <label>Course</label>
-      {/* <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Course</span> */}
-      <select className="form-control" id="sel1" name="course" value={this.state.course} onChange={this.handleCourseChange.bind(this)}>
-        <option value="CC">CC</option>
-        <option value="WT-2">WT-2</option>
-        <option value="CD">CD</option>
-        <option value="TDL">TDL</option>
-      </select>
+      <div className="form-group">
+        <label>Course</label>
+        {/* <span className="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Course</span> */}
+        <select className="form-control" id="sel1" name="course" value={this.state.course} onChange={this.handleCourseChange.bind(this)}>
+          <option value="CC">CC</option>
+          <option value="WT-2">WT-2</option>
+          <option value="CD">CD</option>
+          <option value="TDL">TDL</option>
+        </select>
       </div>
 
   
       {/* Getting the question */}
-<div className="form-group green-border-focus">
-  <label>Question</label>
-  <textarea className="form-control" id="exampleFormControlTextarea5" rows="3" name="question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)}></textarea>
-</div>
+      <div className="form-group green-border-focus">
+        <label>Question</label>
+        <textarea className="form-control" id="exampleFormControlTextarea5" rows="3" name="question" value={this.state.question} onChange={this.handleQuestionChange.bind(this)}></textarea>
+      </div>
       
       {/* Getting the sample answer */}
 
       <div className="form-group purple-border">
-  <label>Sample Answer</label>
-  <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="sampleAns" value={this.state.sampleAns} onInput={this.handleSampleAnsChange.bind(this)}></textarea>
-</div>
-
-
- {/* The create button and the auto evaluate button */}
-
-
- <div className="container">
-  <div className="row">
-    <div className="col-12 col-sm-6 col-md-6">
-        <button className="btn btn-success btn-lg" type="submit">Create </button>
-    </div>
-    <div className="col-12 col-sm-6 col-md-6">
-
-      {/* Auto evaluate button */}
-
-
-      {/* <form onSubmit={this.handleAutoEvaluate.bind(this)}>
-        <button className="btn btn-info btn-lg" type="submit">Auto Evaluate </button>
-       </form> */}
-       <input className="btn btn-info btn-lg" type="submit" value="Auto Evaluate"/>
-    </div>
-  </div>
-</div>
-{/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
-</form>
-
-
-<ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
-
-
+        <label>Sample Answer</label>
+        <textarea className="form-control" id="exampleFormControlTextarea4" rows="3" name="sampleAns" value={this.state.sampleAns} onInput={this.handleSampleAnsChange.bind(this)}></textarea>
       </div>
+
+
+      {/* The create button and the auto evaluate button */}
+
+
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-sm-6 col-md-6">
+            <button className="btn btn-success btn-lg" type="submit">Create </button>
+          </div>
+          <div className="col-12 col-sm-6 col-md-6">
+            {/* Auto evaluate button */}
+            <input className="btn btn-info btn-lg" type="submit" value="Auto Evaluate"/>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
     );
+
+    if (this.state.role == "prof") {
+      content = profContent;
+    }
+    else {
+      content = studContent;
+    }
+    if (this.state.isLoading)
+      return <ReactLoading/>;
+    else
+      return (<div>{content}</div>);
   }
 }
 
