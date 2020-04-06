@@ -87,14 +87,6 @@ class Evaluation extends Component {
         })
 }
 
-// handleSectionChange(event) {
-//   this.setState({section: event.target.value});
-// }
-
-// handleSubjectChange(event) {
-//   this.setState({subject: event.target.value});
-// }
-
 handleAssignmentChange(event) {
   this.setState({ans: event.target.value});
 }
@@ -137,21 +129,17 @@ handleSubmit(event){
     }).then(function (response) {
         if (response.data.success) {
           console.log(response);
-          ToastStore.success('Successfully updated!');
+          ToastStore.success('Successfully added!');
         }
     }).catch(function (error) {
         // TODO: Try again after sometime? 
-        console.log('Caught here: ', error);
+        ToastStore.error("Information incomplete!");
+        console.log('Error: ', error);
     });
-  
-
 }
-
 
 handleSampleAnsChange(event){
   this.setState({sampleAns: event.target.value});
-  // alert(sampleAns)
-  // alert(event.target.value);
 }
 
 handleAssignmentIDChange(event){
@@ -175,19 +163,28 @@ handleMaxMarksChange(event){
   this.setState({maxMarks: event.target.value});
 }
 
-
-
-
 handleAutoEvaluate(event){
-  alert("hey there!!!!");
+  const body = {
+  };
+
+  var apiPath = '/service/autoevaluation/start';
+  axios.post(
+    apiPath,
+    body,
+  ).then(function (response) {
+        if (response.data.success) {
+          console.log(response);
+          ToastStore.success('Autoevaluation complete!');
+        }
+    }).catch(function (error) {
+        // TODO: Try again after sometime? 
+        ToastStore.error('Error!');
+        console.log('Error: ', error);
+    });
+
 }
 
-
-
-
-handleSubmitTeacher(event){
-  // alert("heello");
-  
+handleSubmitTeacher(event){  
   console.log(this.state.sampleAns);
   console.log(this.state.assignmentID);
   console.log(this.state.assignmentName);
@@ -226,11 +223,12 @@ handleSubmitTeacher(event){
     }).then(function (response) {
         if (response.data.success) {
           console.log(response);
-          ToastStore.success('Successfully updated!');
+          ToastStore.success('Successfully added!');
         }
     }).catch(function (error) {
         // TODO: Try again after sometime? 
-        console.log('Caught here: ', error);
+        ToastStore.error('Information incomplete!');
+        console.log('Error: ', error);
     });
 
 
@@ -266,6 +264,7 @@ handleSubmitTeacher(event){
         <input type="submit" className="btn btn-info" value="Submit"/>
           {/* <Button variant="success" onClick = {this.handleSubmit.bind(this)}>Success</Button>{' '} */}
       </form>
+      <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
   </div>
     );
 
@@ -341,16 +340,17 @@ handleSubmitTeacher(event){
 
       <div className="container">
         <div className="row">
-          <div className="col-12 col-sm-6 col-md-6">
+          <div className="col-6 col-sm-6 col-md-6">
             <button className="btn btn-success btn-lg" type="submit">Create </button>
           </div>
-          <div className="col-12 col-sm-6 col-md-6">
+          <div className="col-6 col-sm-6 col-md-6">
             {/* Auto evaluate button */}
-            <input className="btn btn-info btn-lg" type="submit" value="Auto Evaluate"/>
+          <input className="btn btn-info btn-lg" type="button" value="Auto Evaluate" onClick={this.handleAutoEvaluate.bind(this)}/>
           </div>
         </div>
       </div>
     </form>
+    <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
     </div>
     );
 
