@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import viewSubmissions from './viewSubmissions';
 import { ToastContainer, ToastStore } from 'react-toasts';
+import { format } from 'date-fns';
 
 class AssignmentCard extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class AssignmentCard extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    var self = this
+    var self = this;
     var userID = localStorage.getItem('user_id');
     var token = 'Bearer ' + localStorage.getItem('token');
     var assignmentID = this.props.assignmentID;
@@ -99,6 +100,8 @@ class AssignmentCard extends Component {
             Due Date: {this.props.dueDate}<br />
             Maximum Marks: {this.props.maxMarks}<br />
             Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br /> */}
+            <br />
+            On: {format(this.props.createdOn, 'MMMM Do, YYYY H:mma')}
             <br />
             <Link className='btn btn-dark mx-2' to={{
               pathname: '/posts/' + this.props.assignmentID,

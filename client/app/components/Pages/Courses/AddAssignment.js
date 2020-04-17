@@ -197,7 +197,7 @@ class AssignmentAdd extends Component {
             <div>
                 {
                     this.state.assignments.map(function (each) {
-                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
+                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
                     })
                 }
             </div>
@@ -226,7 +226,7 @@ class AssignmentAdd extends Component {
                         <div className='card text-center bg-light'>
                             <div className='card-body '>
                                 {this.state.show ? click : <button type="button" className="btn btn-dark w-20 mx-3" onClick={this.showForm}>Add Post</button>}
-                                {this.state.show ? null : <button className="btn w-20 mx-3"><Link className='text-dark' to="/courses"> Back To Topics </Link></button>}
+                                {this.state.show ? null : <button className="btn w-20 mx-3"><Link className='text-dark' to="/topics"> Back To Topics </Link></button>}
                                 {this.state.show ? <button type="submit" className="btn btn-dark mx-3 w-20 " onClick={this.onAdd}>Submit</button> : null}
                                 {this.state.show ? <button type="close" className="btn w-20 mx-3" onClick={this.closeForm}>Close</button> : null}
                             </div>

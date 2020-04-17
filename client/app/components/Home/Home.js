@@ -89,9 +89,9 @@ class Home extends Component {
       ]
 
     const staticText = {
-      aboutUs: "",
-      latestNews: "",
-      announcements: ""
+      aboutUs: "PES University, located in Bangalore, India, is one of the country's leading teaching and research universities.The University is committed to providing \"education for the real world\" that inspires students to realize their potential. Our students graduate with the ability to adapt to an intellectually and technologically changing environment.",
+      latestNews: "Sabha is a portal designed for the Computer Science Engineering Department in PES University. It is designed for students to interact with each other and start discussions on different topics in their courses. It is a way for them to start thinking out of the box and engage in conversations around various techniques, implementations and also for them to ask and clarify doubts.",
+      announcements: "Refresh calendar on the app for the new calendar \n End Semester Assessment’s from May16th and in July \n Lab Exams in June \n “SOMMA SOPRANO” Audience vote for Best Performances \n Take Precautions against Coronavirus"
     }
 
     return (
@@ -102,7 +102,7 @@ class Home extends Component {
               <p></p><p className="text-justify">{staticText.aboutUs}</p>
             </div>
             <div className="col-12 col-md-4 p-3 p-md-8 border-right">
-            <h3 className="text-center">Latest News</h3>
+            <h3 className="text-center">Who are we?</h3>
               <p></p><p className="text-justify">{staticText.latestNews}</p>
             </div>
             <div className="col-12 col-md-4 p-3 p-md-">

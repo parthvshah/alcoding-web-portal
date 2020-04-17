@@ -40,6 +40,14 @@ const AssignmentSchema = new mongoose.Schema({
       type: Date,
     },
   },
+  upvotes: {
+    type: Number,
+    default: 0
+  },
+  downvotes: {
+    type: Number,
+    default: 0
+  },
   submissions: [{
     user: {
       type: Schema.Types.ObjectId,

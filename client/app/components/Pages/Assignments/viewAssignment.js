@@ -3,6 +3,9 @@ import axios from 'axios';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import CommentCard from './CommentCard';
 import { _API_CALL } from './../../../Utils/api';
+import { format } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowAltCircleUp, faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons'
 
 
 export default class viewAssignment extends Component {
@@ -17,6 +20,8 @@ export default class viewAssignment extends Component {
         };
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.addComment = this.addComment.bind(this);
+        this.upVote = this.upVote.bind(this);
+        this.downVote = this.downVote.bind(this);
     }
     componentDidMount(){
         var self = this;
@@ -63,6 +68,71 @@ export default class viewAssignment extends Component {
         this.setState({
             newComment: e.target.value
         })
+    }
+
+    upVote(event){
+        event.preventDefault();
+        var self = this;
+        var userID = localStorage.getItem('user_id');
+        var token = 'Bearer ' + localStorage.getItem('token');
+        var assignmentID = this.props.assignmentID;
+        var inputData = new FormData();
+        inputData.append("inputFile", this.state.file);
+        var config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': token
+        }
+        }
+
+        var apiPath = 'api/assignments/' + userID + '/' + assignmentID + '/upload'
+        axios.post(apiPath, inputData, config)
+        .then(res => {
+            console.log(res.data)
+            if (res.data.success) {
+            self.setState({
+                showUpload: false
+            })
+            ToastStore.success('Successfully added!');
+            }
+            else {
+            ToastStore.error('Server error');
+            }
+        })
+
+    }
+
+    downVote(event){
+        event.preventDefault();
+        var self = this;
+        var userID = localStorage.getItem('user_id');
+        var token = 'Bearer ' + localStorage.getItem('token');
+        
+        var assignmentID = this.props.assignmentID;
+        var inputData = new FormData();
+        inputData.append("inputFile", this.state.file);
+        var config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': token
+        }
+        }
+
+        var apiPath = 'api/assignments/' + userID + '/' + assignmentID + '/upload'
+        axios.post(apiPath, inputData, config)
+        .then(res => {
+            console.log(res.data)
+            if (res.data.success) {
+            self.setState({
+                showUpload: false
+            })
+            ToastStore.success('Successfully added!');
+            }
+            else {
+            ToastStore.error('Server error');
+            }
+        })
+
     }
 
     addComment() {
@@ -124,7 +194,24 @@ export default class viewAssignment extends Component {
                         <div className="card-title" style={{textAlign: "center"}}><h3><i>{this.state.assignment.uniqueID}</i>: {this.state.assignment.name}</h3></div>
                         <div className="card-body text-left">
                             <br />
+                            <div className="btn-group" style={{alignSelf: "center"}}>
+                                <button type="button" className="btn btn-success" onClick={this.upVote}>
+                                    <FontAwesomeIcon icon={faArrowAltCircleUp} /> +{this.state.assignment.upvotes}
+                                </button>
+                                
+                                <button type="button" className="btn btn-danger" onClick={this.downVote}>
+                                    <FontAwesomeIcon icon={faArrowAltCircleDown} /> -{this.state.assignment.downvotes}
+                                </button>
+                            
+                            </div>
+                            <br />
+                            <br />
+
                             <p>Description: {this.state.assignment.details}</p>
+                            
+                            <br />
+                            <br />
+                            {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}
                             <br />
                             {comments}
                             {/* Type: {this.state.assignment.type}<br />
