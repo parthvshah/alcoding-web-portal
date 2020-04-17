@@ -103,7 +103,7 @@ class AssignmentCard extends Component {
             <br />
             On: {format(this.props.createdOn, 'MMMM Do, YYYY H:mma')}
             <br />
-            <Link className='btn btn-dark mx-2' to={{
+            <div className="text-center"><Link className='btn btn-dark mx-2' to={{
               pathname: '/posts/' + this.props.assignmentID,
               state: {
                 uniqueID: this.props.uniqueID,
@@ -114,7 +114,7 @@ class AssignmentCard extends Component {
                 maxMarks: this.props.maxMarks,
                 resourceUrl: this.props.resourceUrl
               }
-            }}> View </Link>
+            }}> View </Link></div>
             {/* <Link className='btn btn-dark mx-2' to={{
               pathname: '/assignments/submissions/' + this.props.uniqueID,
               state: {

@@ -12,8 +12,12 @@ class Assignments extends Component {
       isLoading: true,
       courses: [],
       role: "student",
-      assignments: []
+      assignments: [],
+      searchKey: '',
+      searchAssignments: [],
     };
+    this.search = this.search.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
   componentDidMount() {
     var self = this;
@@ -97,10 +101,74 @@ class Assignments extends Component {
         }// End of for loop
       })
   }
+
+  handleSearchChange(event){
+    this.setState({
+      searchKey: event.target.value
+  })
+  }
+
+  search(){
+    event.preventDefault();
+    var self = this;
+    var userID = localStorage.getItem('user_id');
+    var token = 'Bearer ' + localStorage.getItem('token');
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      }
+    }
+    var data = {
+      keyword: this.state.searchKey
+    };
+    console.log(data);
+    var apiPath = '/api/posts/search';
+    axios.post(apiPath, data, config)
+      .then(res => {
+        console.log(res.data.assignments);
+        if (res.data.success) {
+          self.setState({
+            searchAssignments: res.data.assignments
+          })
+          ToastStore.success('Loaded!');
+        }
+        else {
+          ToastStore.error('Server error!');
+        }
+      })
+
+  }
+
   render() {
     let content;
+    const searchContent = (
+      <div>
+        {
+          this.state.searchAssignments.length < 1 &&
+          <div className="lead text-center mb-2">Sorry, no results from search. Search using a keyword to explore.</div>
+        }
+        
+        {
+          this.state.searchAssignments.map(function (each) {
+            return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
+          })
+        }
+      </div>
+    );
+
     const profContent = (
       <div>
+          <div>
+            <div className="card bg-light mx-auto">
+            <div className="card-body text-left">
+            <input type="text" className="form-control" placeholder="Search" onChange={this.handleSearchChange}/>
+            <br />
+            <div className="text-center"><button type="button" className="btn btn-dark w-20 mx-3" onClick={this.search}>Search</button></div>
+          </div>
+        </div>
+        <br />
+      </div>
         {
           this.state.assignments.length < 1 &&
           <div className="lead text-center mb-2">Sorry, no posts found.</div>
@@ -110,6 +178,8 @@ class Assignments extends Component {
             return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
           })
         }
+        {searchContent}
+
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
         <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
       </div>
@@ -125,6 +195,8 @@ class Assignments extends Component {
             return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='student' />
           })
         }
+        
+
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
       </div>
     );
@@ -138,7 +210,7 @@ class Assignments extends Component {
       return <ReactLoading/>;
     else
       return (
-        <div>{content}</div>
+      <div>{content}</div>
       );
   }
 }
