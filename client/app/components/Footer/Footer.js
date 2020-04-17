@@ -11,7 +11,7 @@ const Footer = () => (
     <div className="footer-copyright text-center py-3">
       <div>
         &copy; {new Date().getFullYear()}{" "}
-        The Alcoding Club, CS&E, PES University, Bengaluru, India.
+        CS&E, PES University, Bengaluru, India.
       </div>
     </div>
     </Container>

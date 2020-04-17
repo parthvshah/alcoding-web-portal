@@ -89,9 +89,9 @@ class Home extends Component {
       ]
 
     const staticText = {
-      aboutUs: "ALCODING Club - a club of ALgorithms and CODING enthusiasts in the department of Computer Science & Engineering, PES University. It is founded and led by Prof. Channa Bankapur to encourage and keep up the coding culture in the campus.",
-      latestNews: "1 October 2018: Release of the Alcoding Club Platform which will enable students of the department to view Global Rankings, upcoming contests and any messages.",
-      announcements: "The ACM International Collegiate Programming Contest (ACM ICPC) is the largest collegiate programming contest being organized all over the world every year. The ACM ICPC is an activity of the ACM that provides college students with an opportunity to demonstrate and sharpen their problem-solving and computing skills. The contest is considered as the \"Olympiad of Computer Programming\".  For more information about ACM ICPC, visit https://icpc.baylor.edu"
+      aboutUs: "",
+      latestNews: "",
+      announcements: ""
     }
 
     return (
@@ -110,7 +110,7 @@ class Home extends Component {
               <p></p><p className="text-justify">{staticText.announcements}</p>
           </div>
         </div>
-        <div className="jumbotron pt-3 pb-2 bg-light">
+        {/* <div className="jumbotron pt-3 pb-2 bg-light">
           <div className='display-4 mb-3'>Global Rank List</div>
           <br />
           <ReactTable
@@ -129,7 +129,7 @@ class Home extends Component {
             className="-striped -highlight"
           />
           <br />
-        </div>
+        </div> */}
       </div>
     );
   }
