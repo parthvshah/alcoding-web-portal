@@ -28,6 +28,10 @@ const AssignmentSchema = new mongoose.Schema({
   resourcesUrl: {
     type: String
   },
+  createdOn: {
+    type: Date,
+    default: Date.now()
+  },
   duration: {
     startDate: {
       type: Date,
@@ -50,6 +54,19 @@ const AssignmentSchema = new mongoose.Schema({
       type: Number,
       default: -1
     }
+  }],
+  comments: [{
+    text: {
+      type: String
+    },
+    username: {
+      type: String
+    },
+    createdOn: {
+      type: Date,
+      default: Date.now()
+    }
+
   }],
   POC: { // Point Of Contact
     type: Schema.Types.ObjectId,

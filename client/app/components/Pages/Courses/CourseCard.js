@@ -29,7 +29,7 @@ class CourseCard extends Component {
           </div>
           <div className="card-footer">
             <Link className='btn btn-dark mx-2' to={{
-              pathname: '/courses/' + this.props.courseID,
+              pathname: '/topics/' + this.props.courseID,
               state: {
                 code: this.props.code,
                 name: this.props.name,

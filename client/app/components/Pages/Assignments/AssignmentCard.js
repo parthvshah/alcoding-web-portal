@@ -101,7 +101,7 @@ class AssignmentCard extends Component {
             Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br /> */}
             <br />
             <Link className='btn btn-dark mx-2' to={{
-              pathname: '/assignments/' + this.props.assignmentID,
+              pathname: '/posts/' + this.props.assignmentID,
               state: {
                 uniqueID: this.props.uniqueID,
                 name: this.props.name,

@@ -14,6 +14,57 @@ var dir = process.cwd() + '/../temp';
 var keyName = "inputFile";
 
 module.exports = (app) => {
+
+    app.post('/api/assignments/addComment', (req, res) => {
+        var assignmentID = req.body.assignmentID;
+        var text = req.body.text;
+        var username = req.body.username;
+
+        if(!assignmentID) {
+            return res.status(400).send({
+                success: false,
+                message: "Error: assignmentID is required."
+            });
+        }
+        if(!text) {
+            return res.status(400).send({
+                success: false,
+                message: "Error: text is required."
+            });
+        }
+        if(!username) {
+            return res.status(400).send({
+                success: false,
+                message: "Error: username is required."
+            });
+        }
+        var newComment = {
+            text: text,
+            username: username
+        };
+
+        Assignment.findOneAndUpdate({
+            _id: assignmentID
+        }, { $push: { comments: newComment } }, (err, retRes) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({
+                    success: false,
+                    message: "Error: Server error."
+                });
+            }
+            else{
+                console.log(retRes);
+                return res.status(200).send({
+                    success: true,
+                    message: "Comment added.",
+                });
+            }
+        });
+
+
+    });
+
     app.get('/api/assignments/:userID/courses', function (req, res) {
         if (!req.params.userID) {
             return res.status(400).send({
