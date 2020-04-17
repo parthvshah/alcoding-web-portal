@@ -22,8 +22,8 @@ class CourseCard extends Component {
         <div className="card bg-light mx-auto">
           <div className="card-title text-center"><h3><strong><i>{this.props.code}</i>: {this.props.name}</strong></h3></div>
           <div className="card-body text-left">
-            <b>Credits:</b> {this.props.credits}<br />
-            <b>Deparment:</b> {this.props.department}<br />
+            {/* <b>Credits:</b> {this.props.credits}<br />
+            <b>Deparment:</b> {this.props.department}<br /> */}
             <b>Description:</b> {this.props.description}<br />
             <b>Resource URL:</b> <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a>
           </div>
@@ -35,7 +35,7 @@ class CourseCard extends Component {
                 name: this.props.name,
                 anchorDescription: this.props.anchorDescription
               }
-            }}> View Course </Link>
+            }}> View Topic </Link>
           </div>
         </div>
         <br />
@@ -46,10 +46,10 @@ class CourseCard extends Component {
         <div className="card bg-light mx-auto">
           <div className="card-title text-center"><h3><strong><i>{this.props.code}</i>: {this.props.name}</strong></h3></div>
           <div className="card-body text-left">
-            <b>Credits:</b> {this.props.credits}<br />
-            <b>Deparment:</b> {this.props.department}<br />
+            {/* <b>Credits:</b> {this.props.credits}<br />
+            <b>Deparment:</b> {this.props.department}<br /> */}
             <b>Description:</b> {this.props.description}<br />
-            <b>Resource URL:</b> <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a>
+            {/* <b>Resource URL:</b> <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a> */}
           </div>
         </div>
         <br />

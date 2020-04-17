@@ -154,34 +154,34 @@ class AssignmentAdd extends Component {
             <div>
                 <form>
                     <div className="form-group text-left">
-                        <h6>Assignment Name<sup>*</sup></h6>
+                        <h6>Post Title<sup>*</sup></h6>
                         <input type="text" className="form-control " placeholder="Name" value={this.state.name} onChange={this.handleNameChange} required="true"/>
                     </div>
                     <div className="form-group text-left">
                         <h6>Unique ID<sup>*</sup></h6>
                         <input type="text" className="form-control" placeholder="Unique ID" value={this.state.uniqueID} onChange={this.handleUniqueidChange} required="true"/>
                     </div>
-                    <div className="form-group text-left">
+                    {/* <div className="form-group text-left">
                         <h6>Type<sup>*</sup></h6>
                         <input type="text" className="form-control" placeholder="Type" value={this.state.type} onChange={this.handleTypeChange} required="true"/>
-                    </div>
+                    </div> */}
                     <div className="form-group text-left">
-                        <h6>Assignment Details<sup>*</sup></h6>
+                        <h6>Post Body<sup>*</sup></h6>
                         <textarea className="form-control" placeholder="Details" value={this.state.details} onChange={this.handleDetailsChange} />
                     </div>
-                    <div className="form-group text-left">
+                    {/* <div className="form-group text-left">
                         <h6>Maximum Marks<sup>*</sup></h6>
                         <input type="number" className="form-control" placeholder="Maximum Marks" value={this.state.maxMarks} onChange={this.handleMarksChange} required="true"/>
-                    </div>
-                    <div className="form-group text-left">
+                    </div> */}
+                    {/* <div className="form-group text-left">
                         <h6>Duration</h6>
                         <label>Start Date<sup>*</sup></label>
                         <input type="date" className="form-control" placeholder="Start Date" value={this.state.startDate} onChange={this.handleStartDateChange} required="true"/>
                         <label>End Date<sup>*</sup></label>
                         <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange} required="true"/>
-                    </div>
+                    </div> */}
                     <div className="form-group text-left">
-                        <h6>Resources<sup>*</sup></h6>
+                        <h6>Resources</h6>
                         <input type='text' className="form-control" placeholder="URLs" value={this.state.resourcesUrl} onChange={this.handleURLChange} />
                     </div>
                 </form>
@@ -203,7 +203,7 @@ class AssignmentAdd extends Component {
                     <div className='col'>
 
                         <div className="display-4 text-center">{this.props.location.state.code}: {this.props.location.state.name}</div><br/>
-                        {this.props.location.state.anchorDescription ? <div className="font-italic">Anchor Description: {this.props.location.state.anchorDescription}</div> : null}
+                        {this.props.location.state.anchorDescription ? <div className="font-italic">Description: {this.props.location.state.anchorDescription}</div> : null}
 
                     </div>
                 </div>
@@ -211,7 +211,7 @@ class AssignmentAdd extends Component {
                 <div className='row'>
                     <div className='col-sm-7'>
                         <h1 className='text-center'>
-                            Assignments for this course
+                            Posts for this topic
                         </h1>
                         <hr />
                         {content}
@@ -219,8 +219,8 @@ class AssignmentAdd extends Component {
                     <div className='col-sm-5'>
                         <div className='card text-center bg-light'>
                             <div className='card-body '>
-                                {this.state.show ? click : <button type="button" className="btn btn-dark w-20 mx-3" onClick={this.showForm}>Add Assignment</button>}
-                                {this.state.show ? null : <button className="btn w-20 mx-3"><Link className='text-dark' to="/courses"> Back To Courses </Link></button>}
+                                {this.state.show ? click : <button type="button" className="btn btn-dark w-20 mx-3" onClick={this.showForm}>Add Post</button>}
+                                {this.state.show ? null : <button className="btn w-20 mx-3"><Link className='text-dark' to="/courses"> Back To Topics </Link></button>}
                                 {this.state.show ? <button type="submit" className="btn btn-dark mx-3 w-20 " onClick={this.onAdd}>Submit</button> : null}
                                 {this.state.show ? <button type="close" className="btn w-20 mx-3" onClick={this.closeForm}>Close</button> : null}
                             </div>
