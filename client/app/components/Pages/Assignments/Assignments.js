@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import AssignmentCard from './AssignmentCard';
 import ReactLoading from './../../common/Loading';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 class Assignments extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Assignments extends Component {
         if (!response.data.success) {
           // TODO: throw appropriate error and redirect
           console.log("Error1: " + response.data);
+          ToastStore.error('Server error!');
           return;
         }
         var data = response.data;
@@ -57,6 +59,7 @@ class Assignments extends Component {
         if (!response.data.success) {
           // TODO: throw appropriate error and redirect
           console.log("Error1: " + response.data);
+          ToastStore.error('Server error!');
           <Redirect to="/" />
         }
         var data = response.data;
@@ -77,15 +80,19 @@ class Assignments extends Component {
             .then(function (response) {
               if (!response.data.success) {
                 console.log("Error1: " + response.data);
+                ToastStore.error('Server error!');
               }
               var data = response.data;
               self.setState({
                 assignments: self.state.assignments.concat(data.assignments.assignments)
               });
               console.log(response.data);
+              ToastStore.success('Successfully updated!');
             })
             .catch(function (error) {
               console.log('Error2: ', error);
+              ToastStore.error('Server error!');
+
             });
         }// End of for loop
       })
@@ -100,10 +107,11 @@ class Assignments extends Component {
         }
         {
           this.state.assignments.map(function (each) {
-            return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type.toUpperCase()} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
+            return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
           })
         }
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
+        <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
       </div>
     );
     const studContent = (
@@ -114,7 +122,7 @@ class Assignments extends Component {
         }
         {
           this.state.assignments.map(function (each) {
-            return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type.toUpperCase()} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='student' />
+            return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='student' />
           })
         }
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>

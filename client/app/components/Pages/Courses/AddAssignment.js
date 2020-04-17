@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import AssignmentCard from '../Assignments/AssignmentCard';
+import { ToastContainer, ToastStore } from 'react-toasts';
+
 class AssignmentAdd extends Component {
     constructor(props) {
         super(props);
@@ -49,15 +51,18 @@ class AssignmentAdd extends Component {
         }).then(function (response) {
             if (!response.data.success) {
                 console.log("Error1: " + response.data);
+                ToastStore.error('Server error!');
             }
             var data = response.data;
             self.setState({
                 assignments: self.state.assignments.concat(data.assignments.assignments)
             });
             console.log(response.data);
+            ToastStore.success('Loaded!');
         })
             .catch(function (error) {
                 console.log('Error2: ', error);
+                ToastStore.error('Server error!');
             });
     }
     handleNameChange(e) {
@@ -131,10 +136,12 @@ class AssignmentAdd extends Component {
             .then(res => {
                 console.log(res.data);
                 this.reload();
+                ToastStore.success('Successfully updated!');
             })
             .catch(err => {
                 console.log(err);
-                alert('Assignment Failed to Upload!')
+                ToastStore.error('Server error!');
+
             })
     }
     showForm() {
@@ -227,6 +234,7 @@ class AssignmentAdd extends Component {
                     </div>
 
                 </div>
+                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
             </div>
         );
     }

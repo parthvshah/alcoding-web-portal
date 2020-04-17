@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import viewSubmissions from './viewSubmissions';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 class AssignmentCard extends Component {
   constructor(props) {
@@ -65,9 +66,10 @@ class AssignmentCard extends Component {
           self.setState({
             showUpload: false
           })
+          ToastStore.success('Successfully added!');
         }
         else {
-          alert('Assignment failed to upload!')
+          ToastStore.error('Server error');
         }
       })
 
@@ -120,6 +122,7 @@ class AssignmentCard extends Component {
           </div>
         </div>
         <br />
+        <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
       </div>
     );
     const studContent = (

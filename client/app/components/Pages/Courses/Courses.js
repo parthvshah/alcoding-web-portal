@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import CourseCard from '../Courses/CourseCard';
 import AnchorForm from './AnchorForm';
 import ReactLoading from './../../common/Loading';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 class CoursesAdd extends Component {
   constructor(props) {
@@ -94,6 +95,7 @@ class CoursesAdd extends Component {
     }).then(function (response) {
       if (!response.data.success) {
         console.log("Error1: " + response.data);
+        ToastStore.error('Server error!');
       }
       var data = response.data;
       self.setState({ isLoading: false });
@@ -101,9 +103,12 @@ class CoursesAdd extends Component {
         courses: self.state.courses.concat(data.courses)
       });
       console.log(response.data);
+      ToastStore.success('Successfully updated!');
     })
       .catch(function (error) {
         console.log('Error2: ', error);
+        ToastStore.error('Server error!');
+
       });
   }
   handleNameChange(e) {
@@ -220,10 +225,12 @@ class CoursesAdd extends Component {
         .then(res => {
           console.log(res.data);
           this.reload();
+          ToastStore.success('Successfully updated!');
         })
         .catch(err => {
           console.log(err);
-          alert('Course Failed to Upload!')
+          ToastStore.error('Server error!');
+
         })
     }
   }
@@ -365,6 +372,7 @@ class CoursesAdd extends Component {
             </div>
           </div>
         </div>
+        <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
       </div>
 
 

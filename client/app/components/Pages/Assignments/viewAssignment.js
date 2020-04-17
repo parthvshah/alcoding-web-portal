@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 export default class viewAssignment extends Component {
     constructor(props) {
@@ -15,12 +16,16 @@ export default class viewAssignment extends Component {
         axios.get(`/api/assignments/${params.assignmentID}/details`)
         .then(res=> {
             console.log(res);
+            ToastStore.success('Loaded!');
             this.setState({
                 assignment: res.data.data.assignment
             })
         
         })
-        .catch(err => console.log(err))
+        .catch((err) => {
+            console.log(err);
+            ToastStore.error('Server error!');
+        });
     }
     render() {
         let content;
@@ -40,6 +45,7 @@ export default class viewAssignment extends Component {
                     <br />
                 </div>
                 <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
+                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
             </div>
         );
 
