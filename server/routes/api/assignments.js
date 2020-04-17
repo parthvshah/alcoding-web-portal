@@ -609,5 +609,44 @@ module.exports = (app) => {
             })
         })
     })
+
+
+    // API to search for a keyword in name, details and comments of an assignment
+    // keyword to be sent in request body
+    app.post('/api/posts/search', function (req, res) {
+        // get search keyword from body
+        keyword = req.body.keyword;
+        if(!keyword) {
+            console.log('Error Keyword cannot be blank.')
+            return res.status(400).send({
+                success: false,
+                message: 'Error Keyword cannot be blank.'
+            });
+        };
+        Assignment.find({$text:{$search: "\""+keyword+"\"" }},null,{sort:{timestamp:-1}}, (err, assignmentslist) => {
+            if (err) {
+                console.log('Error Server find error')
+                return res.status(500).send({
+                    success: false,
+                    message: 'Error Server find error',
+                    err : err
+                });
+            } else if (assignmentslist.length == 0) {
+                console.log('Keyword does not exist.')
+                return res.status(409).send({
+                    success: false,
+                    message: 'Keyword Not Found In Any Post.'
+                });
+            }
+            else {
+                console.log("Posts with keyword.");
+                return res.status(200).send({
+                    success: true,
+                    message: 'Posts Found.',
+                    assignments: assignmentslist
+                });
+            }
+        });
+    });
 }
 

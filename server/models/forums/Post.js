@@ -50,5 +50,5 @@ const PostSchema = new mongoose.Schema({
     default: false
   }
 });
-
+PostSchema.index({title:"text",description:"text"});
 module.exports = mongoose.model('Post', PostSchema);

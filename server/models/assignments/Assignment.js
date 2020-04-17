@@ -77,5 +77,5 @@ const AssignmentSchema = new mongoose.Schema({
     default: false
   }
 });
-
+AssignmentSchema.index({name:"text",details:"text","comments.text":"text"});
 module.exports = mongoose.model('Assignment', AssignmentSchema);
