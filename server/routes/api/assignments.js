@@ -14,6 +14,63 @@ var dir = process.cwd() + '/../temp';
 var keyName = "inputFile";
 
 module.exports = (app) => {
+    app.post('/api/assignments/vote', (req, res) => {
+        var vote = req.body.vote;
+        var assignmentID = req.body.assignmentID;
+        if(!assignmentID) {
+            console.log("Error: assignmentID is required.");
+            return res.status(400).send({
+                success: false,
+                message: "Error: assignmentID is required."
+            });
+        }
+        if(!vote) {
+            console.log("Error: vote is required.");
+            return res.status(400).send({
+                success: false,
+                message: "Error: vote is required."
+            });
+        }
+        if(vote=='up'){
+            Assignment.findOneAndUpdate({ _id: assignmentID },
+                { $inc: {upvotes: 1} }, 
+                (err, resInner) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send({
+                        success: false,
+                        message: "Error: Server error."
+                    });
+                }
+                else{
+                    return res.status(200).send({
+                        success: true,
+                        message: "Upvoted.",
+                    });
+                }
+            });
+
+        }
+        else{
+            Assignment.findOneAndUpdate({ _id: assignmentID }, { $inc: {downvotes: 1} }, (err, resInner) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send({
+                        success: false,
+                        message: "Error: Server error."
+                    });
+                }
+                else{
+                    return res.status(200).send({
+                        success: true,
+                        message: "Downvoted.",
+                    });
+                }
+            });
+
+        }
+
+    });
 
     app.post('/api/assignments/addComment', (req, res) => {
         var assignmentID = req.body.assignmentID;
@@ -54,7 +111,6 @@ module.exports = (app) => {
                 });
             }
             else{
-                console.log(retRes);
                 return res.status(200).send({
                     success: true,
                     message: "Comment added.",

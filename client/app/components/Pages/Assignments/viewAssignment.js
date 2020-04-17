@@ -75,28 +75,29 @@ export default class viewAssignment extends Component {
         var self = this;
         var userID = localStorage.getItem('user_id');
         var token = 'Bearer ' + localStorage.getItem('token');
-        var assignmentID = this.props.assignmentID;
-        var inputData = new FormData();
-        inputData.append("inputFile", this.state.file);
+
         var config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': token
-        }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
         }
 
-        var apiPath = 'api/assignments/' + userID + '/' + assignmentID + '/upload'
-        axios.post(apiPath, inputData, config)
+        var apiPath = '/api/assignments/vote';
+        var data = {
+            assignmentID: this.state.assignmentID,
+            vote: 'up'
+        };
+        console.log(data);
+        axios.post(apiPath, data, config)
         .then(res => {
-            console.log(res.data)
+            console.log(res.data);
             if (res.data.success) {
-            self.setState({
-                showUpload: false
-            })
-            ToastStore.success('Successfully added!');
+                this.reload();
+                ToastStore.success('Successfully updated!');
             }
             else {
-            ToastStore.error('Server error');
+                ToastStore.error('Server error');
             }
         })
 
@@ -107,29 +108,28 @@ export default class viewAssignment extends Component {
         var self = this;
         var userID = localStorage.getItem('user_id');
         var token = 'Bearer ' + localStorage.getItem('token');
-        
-        var assignmentID = this.props.assignmentID;
-        var inputData = new FormData();
-        inputData.append("inputFile", this.state.file);
+
         var config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': token
-        }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
         }
 
-        var apiPath = 'api/assignments/' + userID + '/' + assignmentID + '/upload'
-        axios.post(apiPath, inputData, config)
+        var apiPath = '/api/assignments/vote';
+        var data = {
+            assignmentID: this.state.assignmentID,
+            vote: 'down'
+        };
+        axios.post(apiPath, data, config)
         .then(res => {
-            console.log(res.data)
+            console.log(res.data);
             if (res.data.success) {
-            self.setState({
-                showUpload: false
-            })
-            ToastStore.success('Successfully added!');
+                this.reload();
+                ToastStore.success('Successfully updated!');
             }
             else {
-            ToastStore.error('Server error');
+                ToastStore.error('Server error');
             }
         })
 
