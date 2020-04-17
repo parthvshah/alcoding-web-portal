@@ -93,10 +93,11 @@ class AssignmentCard extends Component {
           <div className="card-title"><h3><i>{this.props.uniqueID}</i>: <strong>{this.props.name}</strong></h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
-            Type: {this.props.type}<br />
+            {/* Type: {this.props.type}<br />
             Due Date: {this.props.dueDate}<br />
             Maximum Marks: {this.props.maxMarks}<br />
-            Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br />
+            Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br /> */}
+            <br />
             <Link className='btn btn-dark mx-2' to={{
               pathname: '/assignments/' + this.props.assignmentID,
               state: {
@@ -108,13 +109,13 @@ class AssignmentCard extends Component {
                 maxMarks: this.props.maxMarks,
                 resourceUrl: this.props.resourceUrl
               }
-            }}> View Assignment </Link>
-            <Link className='btn btn-dark mx-2' to={{
+            }}> View </Link>
+            {/* <Link className='btn btn-dark mx-2' to={{
               pathname: '/assignments/submissions/' + this.props.uniqueID,
               state: {
                 assignmentID: this.props.assignmentID
               }
-            }}> View Submissions </Link>
+            }}> View Submissions </Link> */}
 
           </div>
         </div>
@@ -127,10 +128,10 @@ class AssignmentCard extends Component {
           <div className="card-title"><h3><i>{this.props.uniqueID}</i>: <strong>{this.props.name}</strong></h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
-            Type: {this.props.type}<br />
+            {/* Type: {this.props.type}<br />
             Due Date: {this.props.dueDate}<br />
             Maximum Marks: {this.props.maxMarks}<br />
-            Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br />
+            Resource URL: <a href={'//' + this.props.resourceUrl}>{this.props.resourceUrl}</a><br /><br /> */}
             {this.state.showUpload ? toUpload : <h6 className="text-info">Assignment Submitted!</h6>}
           </div>
         </div>

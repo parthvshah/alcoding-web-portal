@@ -57,7 +57,7 @@ class SubmissionsCard extends Component {
                         Name : {this.state.name}<br />
                         USN : {this.state.usn} <br /><br />
                         {/* <button className="btn btn-dark" onClick={() => window.open("/download/" + this.props.fileID)}> Download Submission </button> */}
-                        <a href={downloadSubmission} className="btn btn-dark">Download</a>
+                        {/* <a href={downloadSubmission} className="btn btn-dark">Download</a> */}
                     </div>
 
                 </div>
