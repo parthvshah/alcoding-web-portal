@@ -104,7 +104,6 @@ class AssignmentAdd extends Component {
         window.location.reload()
     }
     onAdd() {
-        ///api/assignment/:userID/createAssignment
         var self = this;
         var userID = localStorage.getItem('user_id');
         var token = localStorage.getItem('token');
@@ -119,15 +118,15 @@ class AssignmentAdd extends Component {
         var data = Object.assign({}, self.state.assignment);
         data.name = self.state.name;
         data.uniqueId = self.state.uniqueID;
-        data.type = self.state.type;
+        // data.type = self.state.type;
         data.courseID = params.courseID;
-        data.maxMarks = self.state.maxMarks;
+        // data.maxMarks = self.state.maxMarks;
         data.details = self.state.details;
         data.resourcesUrl = self.state.resourcesUrl;
-        var duration = { startDate: self.state.startDate, endDate: self.state.endDate }
-        data.duration = duration;
-        data = JSON.stringify(data)
-        console.log(data)
+        // var duration = { startDate: self.state.startDate, endDate: self.state.endDate }
+        // data.duration = duration;
+        data = JSON.stringify(data);
+        console.log(data);
         axios.post(`/api/assignments/${userID}/createAssignment`, data, config)
             .then(res => {
                 console.log(res.data);
@@ -155,30 +154,30 @@ class AssignmentAdd extends Component {
                 <form>
                     <div className="form-group text-left">
                         <h6>Post Title<sup>*</sup></h6>
-                        <input type="text" className="form-control " placeholder="Name" value={this.state.name} onChange={this.handleNameChange} required="true"/>
+                        <input type="text" className="form-control " placeholder="Name" value={this.state.name} onChange={this.handleNameChange}/>
                     </div>
                     <div className="form-group text-left">
                         <h6>Unique ID<sup>*</sup></h6>
-                        <input type="text" className="form-control" placeholder="Unique ID" value={this.state.uniqueID} onChange={this.handleUniqueidChange} required="true"/>
+                        <input type="text" className="form-control" placeholder="Unique ID" value={this.state.uniqueID} onChange={this.handleUniqueidChange}/>
                     </div>
                     {/* <div className="form-group text-left">
                         <h6>Type<sup>*</sup></h6>
-                        <input type="text" className="form-control" placeholder="Type" value={this.state.type} onChange={this.handleTypeChange} required="true"/>
+                        <input type="text" className="form-control" placeholder="Type" value={this.state.type} onChange={this.handleTypeChange}/>
                     </div> */}
                     <div className="form-group text-left">
-                        <h6>Post Body<sup>*</sup></h6>
+                        <h6>Post Description<sup>*</sup></h6>
                         <textarea className="form-control" placeholder="Details" value={this.state.details} onChange={this.handleDetailsChange} />
                     </div>
                     {/* <div className="form-group text-left">
                         <h6>Maximum Marks<sup>*</sup></h6>
-                        <input type="number" className="form-control" placeholder="Maximum Marks" value={this.state.maxMarks} onChange={this.handleMarksChange} required="true"/>
+                        <input type="number" className="form-control" placeholder="Maximum Marks" value={this.state.maxMarks} onChange={this.handleMarksChange}/>
                     </div> */}
                     {/* <div className="form-group text-left">
                         <h6>Duration</h6>
                         <label>Start Date<sup>*</sup></label>
-                        <input type="date" className="form-control" placeholder="Start Date" value={this.state.startDate} onChange={this.handleStartDateChange} required="true"/>
+                        <input type="date" className="form-control" placeholder="Start Date" value={this.state.startDate} onChange={this.handleStartDateChange}/>
                         <label>End Date<sup>*</sup></label>
-                        <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange} required="true"/>
+                        <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange}/>
                     </div> */}
                     <div className="form-group text-left">
                         <h6>Resources</h6>
@@ -191,7 +190,7 @@ class AssignmentAdd extends Component {
             <div>
                 {
                     this.state.assignments.map(function (each) {
-                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type.toUpperCase()} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
+                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
                     })
                 }
             </div>

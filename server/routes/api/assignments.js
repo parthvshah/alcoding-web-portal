@@ -297,7 +297,7 @@ module.exports = (app) => {
         })
     })
 
-    app.post('/api/assignments/:userID/createAssignment', requireRole('prof'), function (req, res) {
+    app.post('/api/assignments/:userID/createAssignment', function (req, res) {
         if (!req.params.userID) {
             return res.status(400).send({
                 success: false,
@@ -317,12 +317,12 @@ module.exports = (app) => {
                 message: 'Error: uniqueId cannot be blank'
             });
         }
-        if (!req.body.type) {
-            return res.status(400).send({
-                success: false,
-                message: "Error: type cannot be blank"
-            });
-        }
+        // if (!req.body.type) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: "Error: type cannot be blank"
+        //     });
+        // }
         if (!req.body.courseID) {
             return res.status(400).send({
                 success: false,
@@ -333,9 +333,10 @@ module.exports = (app) => {
         Course.find({
             _id: req.body.courseID,
             isDeleted: false,
-            'class.professor': req.params.userID
+            // 'class.professor': req.params.userID
         }, function (err, courses) {
             if (err) {
+                console.log(err);
                 return res.status(500).send({
                     success: false,
                     message: "Error: Server error"
@@ -352,16 +353,17 @@ module.exports = (app) => {
             assignment.course = req.body.courseID;
             assignment.name = req.body.name;
             assignment.uniqueID = req.body.uniqueId;
-            assignment.type = req.body.type;
+            // assignment.type = req.body.type;
             assignment.details = req.body.details;
-            assignment.maxMarks = req.body.maxMarks;
+            // assignment.maxMarks = req.body.maxMarks;
             assignment.resourcesUrl = req.body.resourcesUrl;
-            assignment.duration.startDate = req.body.startDate;
-            assignment.duration.endDate = req.body.endDate;
-            assignment.POC = req.body.POC;
+            // assignment.duration.startDate = req.body.startDate;
+            // assignment.duration.endDate = req.body.endDate;
+            // assignment.POC = req.body.POC;
 
             assignment.save(function (err, assignment) {
                 if (err) {
+                    console.log(err);
                     return res.status(500).send({
                         success: false,
                         message: "Error: server error"
@@ -376,6 +378,7 @@ module.exports = (app) => {
                         }
                     }, { new: true }, function (err, course) {
                         if (err) {
+                            console.log(err);
                             return res.status(500).send({
                                 success: false,
                                 message: "Error: server error"

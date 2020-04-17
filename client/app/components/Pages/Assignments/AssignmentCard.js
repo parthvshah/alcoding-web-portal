@@ -90,7 +90,7 @@ class AssignmentCard extends Component {
     const profContent = (
       <div id="AssignmentCard">
         <div className="card bg-light mx-auto">
-          <div className="card-title"><h3><i>{this.props.uniqueID}</i>: <strong>{this.props.name}</strong></h3></div>
+          <div className="card-title" style={{textAlign: "center"}}><h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
             {/* Type: {this.props.type}<br />

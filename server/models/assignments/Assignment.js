@@ -17,7 +17,7 @@ const AssignmentSchema = new mongoose.Schema({
   },
   type: { // MCQ, Quiz, Code
     type: String,
-    required: true,
+    // required: true,
   },
   details: {
     type: String,
