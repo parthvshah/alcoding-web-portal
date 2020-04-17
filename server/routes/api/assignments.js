@@ -14,7 +14,7 @@ var dir = process.cwd() + '/../temp';
 var keyName = "inputFile";
 
 module.exports = (app) => {
-    app.get('/api/assignments/:userID/courses', verifyUser, function (req, res) {
+    app.get('/api/assignments/:userID/courses', function (req, res) {
         if (!req.params.userID) {
             return res.status(400).send({
                 success: false,
@@ -28,7 +28,7 @@ module.exports = (app) => {
             search['class.professor']=req.user_id;
         }
 
-        Course.find(search, (err, courses) => {
+        Course.find({}, (err, courses) => {
             if (err) {
                 return res.status(500).send({
                     success: false,
@@ -394,7 +394,7 @@ module.exports = (app) => {
         });
     })
 
-    app.delete('/api/assignemnts/:userID/:courseID/delete', requireRole('prof'), function(req,res){
+    app.delete('/api/assignemnts/:userID/:courseID/delete', function(req,res){
         if(!req.params.courseID){
             return res.status(400).send({
                 success: false,
@@ -433,7 +433,7 @@ module.exports = (app) => {
     })
 
     // Upload Assignment
-    app.all('/api/assignments/:userID/:assignmentID/upload', verifyUser, diskStorage(dir).single(keyName), fileUpload, function (req, res, next) {
+    app.all('/api/assignments/:userID/:assignmentID/upload', diskStorage(dir).single(keyName), fileUpload, function (req, res, next) {
         Assignment.findOneAndUpdate({
             _id: req.params.assignmentID,
             isDeleted: false
@@ -495,7 +495,7 @@ module.exports = (app) => {
             });
     })
 
-    app.get('/api/assignments/:assignmentID/submissions', requireRole('prof'), function(req,res){
+    app.get('/api/assignments/:assignmentID/submissions', function(req,res){
         Assignment.find({
             _id:req.params.assignmentID
         }, function(err, assignments){
@@ -528,9 +528,9 @@ module.exports = (app) => {
         })
     })
 
-    app.get('/api/assignments/:fileID/:userID/download', requireRole('prof'), downloadFile(dir));
+    app.get('/api/assignments/:fileID/:userID/download', downloadFile(dir));
 
-    app.get('/api/assignments/:assignmentID/zip', requireRole('prof'), addFilesForZip, zipFile(dir));
+    app.get('/api/assignments/:assignmentID/zip', addFilesForZip, zipFile(dir));
 
     app.get('/api/assignments/:assignmentID/details', function(req,res){
         Assignment.find({
