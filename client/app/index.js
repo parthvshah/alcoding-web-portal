@@ -51,21 +51,21 @@ render((
 
               <Route exact path="/users/:username" component={PublicProfile} />
 
-              <PrivateRoute exact path="/assignments" component={Assignments} />
+              <PrivateRoute exact path="/posts" component={Assignments} />
 
-              <PrivateRoute exact path='/assignments/:assignmentID' component={viewAssignment} />
+              <PrivateRoute exact path='/posts/:assignmentID' component={viewAssignment} />
 
               <PrivateRoute exact path="/contests" component={Contests} />
 
-              <PrivateRoute exact path="/courses" component={Courses} />
+              <PrivateRoute exact path="/topics" component={Courses} />
 
               <PrivateRoute exact path="/profile" component={Profile} />
 
               <PrivateRoute exact path="/admin" component={SignupForm} />
 
-              <PrivateRoute exact path="/courses/:courseID" component={AssignmentAdd} />
+              <PrivateRoute exact path="/topics/:courseID" component={AssignmentAdd} />
 
-              <PrivateRoute exact path="/assignments/submissions/:assignmentID" component={viewSubmissions} />
+              <PrivateRoute exact path="/posts/submissions/:assignmentID" component={viewSubmissions} />
 
               <PrivateRoute exact path="/download/:fileID/:userID" component={downloadFile} />
 

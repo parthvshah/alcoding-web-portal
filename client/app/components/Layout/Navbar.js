@@ -98,10 +98,10 @@ class NavbarClass extends Component {
             <NavLink tag={Link} to="/contests" activeclassname="active">Contests</NavLink>
           </NavItem> */}
           <NavItem>
-            <NavLink tag={Link} to="/courses" activeclassname="active">Topics</NavLink>
+            <NavLink tag={Link} to="/topics" activeclassname="active">Topics</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to="/assignments" activeclassname="active">Posts</NavLink>
+            <NavLink tag={Link} to="/posts" activeclassname="active">Posts</NavLink>
           </NavItem>
         </Nav>
         <hr/>

@@ -87,7 +87,7 @@ class Assignments extends Component {
                 assignments: self.state.assignments.concat(data.assignments.assignments)
               });
               console.log(response.data);
-              ToastStore.success('Successfully updated!');
+              // ToastStore.success('Successfully updated!');
             })
             .catch(function (error) {
               console.log('Error2: ', error);
