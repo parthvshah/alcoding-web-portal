@@ -5,11 +5,11 @@ const CourseSchema = new mongoose.Schema({
   class: {
     professor:{
       type: Schema.Types.ObjectId,
-      required: true
+      // required: true
     },
     sections: [{
       type: String,
-      required: true
+      // required: true
     }]
   },
   students: [{

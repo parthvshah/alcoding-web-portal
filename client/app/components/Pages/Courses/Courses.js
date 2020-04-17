@@ -206,15 +206,15 @@ class CoursesAdd extends Component {
     data.department = self.state.department;
     data.description = self.state.description;
     data.resourcesUrl = self.state.resourcesUrl;
-    var details = { credits: self.state.credits, hours: self.state.hours, isCore: self.state.isCore }
-    data.details = details;
-    var duration = { startDate: self.state.startDate, endDate: self.state.endDate }
-    data.duration = duration;
-    data.graduating = self.state.graduating;
+    // var details = { credits: self.state.credits, hours: self.state.hours, isCore: self.state.isCore }
+    // data.details = details;
+    // var duration = { startDate: self.state.startDate, endDate: self.state.endDate }
+    // data.duration = duration;
+    // data.graduating = self.state.graduating;
     if ("prof".localeCompare(self.state.profRole) == 0) {
-      data.professorID = self.state.professorID;
-      data.sections = self.state.sections
-      data.role = 'prof';
+      // data.professorID = self.state.professorID;
+      // data.sections = self.state.sections
+      // data.role = 'prof';
       console.log(data);
       axios.post(apiPath, data, config)
         .then(res => {
@@ -293,19 +293,19 @@ class CoursesAdd extends Component {
         <form>
           <div className="form-group text-left">
             <h6>Topic<sup>*</sup></h6>
-            <input type="text" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleNameChange} required="true" />
+            <input type="text" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleNameChange}/>
           </div>
           <div className="form-group text-left">
             <h6>Code<sup>*</sup></h6>
-            <input type="text" className="form-control" placeholder="Code" value={this.state.code} onChange={this.handleCodeChange} required="true" />
+            <input type="text" className="form-control" placeholder="Code" value={this.state.code} onChange={this.handleCodeChange}/>
           </div>
           {/* <div className="form-group text-left">
             <h6>Year of Graduation<sup>*</sup></h6>
-            <input type="text" className="form-control" placeholder="Graduating" value={this.state.graduating} onChange={this.handleGraduatingChange} required="true" />
+            <input type="text" className="form-control" placeholder="Graduating" value={this.state.graduating} onChange={this.handleGraduatingChange}/>
           </div> */}
           <div className="form-group text-left">
             <h6>Department<sup>*</sup></h6>
-            <input type="text" className="form-control" placeholder="Department" value={this.state.department} onChange={this.handleDepartmentChange} required="true" />
+            <input type="text" className="form-control" placeholder="Department" value={this.state.department} onChange={this.handleDepartmentChange}/>
           </div>
           <div className="form-group text-left">
             <div>
@@ -315,14 +315,14 @@ class CoursesAdd extends Component {
           </div>
           {/* <div className="form-group text-left">
             <h6>Credits<sup>*</sup></h6>
-            <input type="number" className="form-control" placeholder="Credits" value={this.state.credits} onChange={this.handleCreditsChange} required="true" />
+            <input type="number" className="form-control" placeholder="Credits" value={this.state.credits} onChange={this.handleCreditsChange} />
           </div> */}
           {/* <div className="form-group text-left">
             <h6>Duration</h6>
             <label>Start Date<sup>*</sup></label>
-            <input type="date" className="form-control" placeholder="Start Date" value={this.state.startDate} onChange={this.handleStartDateChange} required="true" />
+            <input type="date" className="form-control" placeholder="Start Date" value={this.state.startDate} onChange={this.handleStartDateChange} />
             <label>End Date<sup>*</sup></label>
-            <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange} required="true" />
+            <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange} />
             <label>Number of Hours</label>
             <input type="number" className="form-control" placeholder="Hours" value={this.state.hours} onChange={this.handleHoursChange} />
           </div> */}
@@ -356,7 +356,7 @@ class CoursesAdd extends Component {
         <div className='col-sm-5'>
           <div className='card bg-light text-center'>
             <div className='card-body'>
-              {this.state.profRole == '' ? this.state.show && this.state.profRole == '' ? chooseRole : <button type="button" className="btn btn-dark w-50 mx-3" onClick={this.showForm}>Add Course</button> : null}
+              {this.state.profRole == '' ? this.state.show && this.state.profRole == '' ? chooseRole : <button type="button" className="btn btn-dark w-50 mx-3" onClick={this.showForm}>Add Topic</button> : null}
               {this.state.show && this.state.profRole != '' ? click : null}
               {this.state.show && this.state.profRole != 'anchor' ? <hr />: null}
               {this.state.show && this.state.profRole == 'prof' ? <button type="submit" className="btn btn-dark mx-3 w-20 " onClick={this.onAdd}>Submit</button> : null}

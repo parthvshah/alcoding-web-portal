@@ -154,18 +154,18 @@ module.exports = (app) => {
     })
 
     // Endpoint for creating a new course as a professor or anchor
-    app.post('/api/assignments/createCourse', requireRole('prof'), function (req, res) {
+    app.post('/api/assignments/createCourse', function (req, res) {
         if (!req.body.name) {
             return res.status(400).send({
                 success: false,
-                message: 'Course name required.'
+                message: 'Topic name required.'
             });
         }
 
         if (!req.body.code) {
             return res.status(400).send({
                 success: false,
-                message: 'Course code required.'
+                message: 'Topic code required.'
             });
         }
 
@@ -176,36 +176,36 @@ module.exports = (app) => {
             });
         }
 
-        if (!req.body.professorID) {
-            return res.status(400).send({
-                success: false,
-                message: 'ProfessorID in Course required.'
-            })
-        }
+        // if (!req.body.professorID) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'ProfessorID in Course required.'
+        //     })
+        // }
 
-        if (!req.body.sections) {
-            return res.status(400).send({
-                success: false,
-                message: 'Section in Course required.'
-            })
-        }
+        // if (!req.body.sections) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Section in Course required.'
+        //     })
+        // }
 
-        if(!req.body.role) {
-            return res.status(400).send({
-                success: false,
-                message: 'Role of Professor in Course required.'
-            })
-        }
+        // if(!req.body.role) {
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Role of Professor in Course required.'
+        //     })
+        // }
 
-        if(!req.body.graduating){
-            return res.status(400).send({
-                success: false,
-                message: 'Graduating year of students in Course required.'
-            })
-        }
+        // if(!req.body.graduating){
+        //     return res.status(400).send({
+        //         success: false,
+        //         message: 'Graduating year of students in Course required.'
+        //     })
+        // }
 
         User.findOne({
-            usn: req.body.professorID,
+            usn: "PROF",
             isDeleted: false
         }, function(err, user){
             if(err){
@@ -243,18 +243,18 @@ module.exports = (app) => {
                 newCourse.department = req.body.department;
                 newCourse.description = req.body.description;
                 newCourse.resourcesUrl = req.body.resourcesUrl;
-                newCourse.duration.startDate = req.body.startDate;
-                newCourse.duration.endDate = req.body.endDate;
-                newCourse.details.credits = req.body.credits;
-                newCourse.details.hours = req.body.hours;
-                newCourse.class.professor = user._id;
-                newCourse.students = new Array();
-                var sections = req.body.sections.split(',');
-                newCourse.class.sections = sections;
+                // newCourse.duration.startDate = req.body.startDate;
+                // newCourse.duration.endDate = req.body.endDate;
+                // newCourse.details.credits = req.body.credits;
+                // newCourse.details.hours = req.body.hours;
+                // newCourse.class.professor = user._id;
+                // newCourse.students = new Array();
+                // var sections = req.body.sections.split(',');
+                // newCourse.class.sections = sections;
                 Group.find({
-                    isDeleted: false,
-                    name: {$in: sections}, 
-                    graduating: req.body.graduating
+                    // isDeleted: false,
+                    // name: {$in: sections}, 
+                    // graduating: req.body.graduating
                 }, function(err, groups){
                     if (err) {
                         return res.status(500).send({
