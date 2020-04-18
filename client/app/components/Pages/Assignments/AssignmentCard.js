@@ -94,7 +94,8 @@ class AssignmentCard extends Component {
     // check
     var apiPath = '/api/assignments/vote'
     var data = {
-        assignmentID: this.state.assignmentID,
+        assignmentID: this.props.assignmentID,
+        vote: "view"
     };
     console.log(data);
     axios.post(apiPath, data, config)
@@ -125,9 +126,19 @@ class AssignmentCard extends Component {
       </div>
     );
     let content;
+    let cardClassName;
+    let buttonClassName;
+    if(!this.props.isSearch){
+      cardClassName="card border-success border-width-50 bg-light mx-auto";
+      buttonClassName="btn btn-success mx-2";
+    }
+    else{
+      cardClassName="card bg-light mx-auto";
+      buttonClassName="btn btn-dark mx-2";
+    }
     const profContent = (
-      <div id="AssignmentCard">
-        <div className="card bg-light mx-auto">
+      <div>
+        <div className={cardClassName}>
           <div className="card-title" style={{textAlign: "center"}}>Views: {this.props.views} +{this.props.upVotes} -{this.props.downVotes}<h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
@@ -138,7 +149,7 @@ class AssignmentCard extends Component {
             <br />
             On: {format(this.props.createdOn, 'MMMM Do, YYYY H:mma')}
             <br />
-            <div className="text-center"><Link onClick={this.viewCount} className='btn btn-dark mx-2' to={{
+            <div onClick={this.viewCount} className="text-center"><Link className={buttonClassName} to={{
               pathname: '/posts/' + this.props.assignmentID,
               state: {
                 uniqueID: this.props.uniqueID,
