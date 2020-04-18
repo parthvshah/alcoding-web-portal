@@ -48,6 +48,10 @@ const AssignmentSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  views: {
+    type: Number,
+    default: 0
+  },
   submissions: [{
     user: {
       type: Schema.Types.ObjectId,

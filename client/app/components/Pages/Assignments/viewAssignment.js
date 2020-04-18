@@ -211,7 +211,7 @@ export default class viewAssignment extends Component {
                             
                             <br />
                             <br />
-                            {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}
+                            Views: {this.state.assignment.views} - {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}
                             <br />
                             {comments}
                             {/* Type: {this.state.assignment.type}<br />

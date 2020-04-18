@@ -51,7 +51,7 @@ module.exports = (app) => {
             });
 
         }
-        else{
+        else if (vote == 'down'){
             Assignment.findOneAndUpdate({ _id: assignmentID }, { $inc: {downvotes: 1} }, (err, resInner) => {
                 if (err) {
                     console.log(err);
@@ -68,6 +68,27 @@ module.exports = (app) => {
                 }
             });
 
+        }
+
+        else {
+            Assignment.findByIdAndUpdate({ _id: assignmentID}, { $inc: {views: 1} }, (err, resInner) =>{
+
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send({
+                        success: false,
+                        message: "Error: Server error."
+                    });
+                }
+
+                else{
+                    return res.status(200).send({
+                        success: true,
+                        message: "Viewed.",
+                    });
+                }
+
+            })
         }
 
     });

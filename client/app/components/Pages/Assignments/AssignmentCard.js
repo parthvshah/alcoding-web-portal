@@ -15,7 +15,11 @@ class AssignmentCard extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.fileInput = React.createRef();
+    this.viewCount = this.viewCount.bind(this);
+
   }
+
+
 
   componentDidMount() {
     var userID = localStorage.getItem('user_id');
@@ -75,6 +79,37 @@ class AssignmentCard extends Component {
       })
 
   }
+  viewCount(event){
+    event.preventDefault();
+    var self = this;
+    var userID = localStorage.getItem('user_id');
+    var token = 'Bearer ' + localStorage.getItem('token');
+
+    var config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }
+    // check
+    var apiPath = '/api/assignments/vote'
+    var data = {
+        assignmentID: this.state.assignmentID,
+    };
+    console.log(data);
+    axios.post(apiPath, data, config)
+    .then(res => {
+        console.log(res.data);
+        if (res.data.success) {
+            this.reload();
+            ToastStore.success('Successfully updated!');
+        }
+        else {
+            ToastStore.error('Server error');
+        }
+    })
+
+}
 
   render() {
     const toUpload = (
@@ -93,7 +128,7 @@ class AssignmentCard extends Component {
     const profContent = (
       <div id="AssignmentCard">
         <div className="card bg-light mx-auto">
-          <div className="card-title" style={{textAlign: "center"}}>+{this.props.upVotes} -{this.props.downVotes}<h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
+          <div className="card-title" style={{textAlign: "center"}}>Views: {this.props.views} +{this.props.upVotes} -{this.props.downVotes}<h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
             {/* Type: {this.props.type}<br />
@@ -103,7 +138,7 @@ class AssignmentCard extends Component {
             <br />
             On: {format(this.props.createdOn, 'MMMM Do, YYYY H:mma')}
             <br />
-            <div className="text-center"><Link className='btn btn-dark mx-2' to={{
+            <div className="text-center"><Link onClick={this.viewCount} className='btn btn-dark mx-2' to={{
               pathname: '/posts/' + this.props.assignmentID,
               state: {
                 uniqueID: this.props.uniqueID,
