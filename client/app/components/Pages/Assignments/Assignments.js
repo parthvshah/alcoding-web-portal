@@ -169,6 +169,7 @@ class Assignments extends Component {
         </div>
         <br />
       </div>
+      {searchContent}
         {
           this.state.assignments.length < 1 &&
           <div className="lead text-center mb-2">Sorry, no posts found.</div>
@@ -178,7 +179,7 @@ class Assignments extends Component {
             return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
           })
         }
-        {searchContent}
+        
 
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
         <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
