@@ -53,6 +53,7 @@ export default class viewAssignment extends Component {
                 self.setState({
                     usn: data.user.usn,
                     name: data.user.name.firstName + " " + data.user.name.lastName,
+                    badge: data.user.badge
                 });
             })
             .catch(error => {
@@ -149,7 +150,8 @@ export default class viewAssignment extends Component {
         var data = {
             assignmentID: this.state.assignmentID,
             text: this.state.newComment,
-            username: this.state.name
+            username: this.state.name,
+            badge: this.state.badge
         };
         console.log(data);
         axios.post(apiPath, data, config)
@@ -172,13 +174,14 @@ export default class viewAssignment extends Component {
         let content;
         let comments;
         let archiveTag;
+        let badgeTag;
 
         if(this.state.assignment.comments){
             comments = (
                 <div>
                     {
                         this.state.assignment.comments.map(function (each) {
-                            return <CommentCard key={each.createdOn} text={each.text} username={each.username} createdOn={each.createdOn} />
+                            return <CommentCard key={each.createdOn} text={each.text} username={each.username} createdOn={each.createdOn} badge={each.badge} />
                         })
                     }
                 </div>
@@ -201,13 +204,27 @@ export default class viewAssignment extends Component {
             );
         
         }
+
+        if(this.state.assignment.badge=="professor"){
+        
+            badgeTag = (
+                <FontAwesomeIcon icon={faUserTie} />
+            );
+        
+        }
+        else{
+            badgeTag = (
+                <FontAwesomeIcon icon={faGraduationCap} />
+            );
+        
+        }
         
 
         const Content = (
             <div>
                 <div id="AssignmentCard">
                     <div className="card bg-light mx-auto">
-                        <div className="card-title" style={{textAlign: "center"}}><h3><i>{this.state.assignment.uniqueID}</i>: {this.state.assignment.name}</h3></div>
+                        <div className="card-title" style={{textAlign: "center"}}><h3>{badgeTag} <i>{this.state.assignment.uniqueID}</i>: {this.state.assignment.name}</h3></div>
                         <div className="card-body text-left">
                             <br />
                             <div className="btn-group" style={{alignSelf: "center"}}>
@@ -230,7 +247,7 @@ export default class viewAssignment extends Component {
                             <br />
                             Tags: <strong><i>{this.state.assignment.tags}</i></strong>
                             <br />
-                            Views: {this.state.assignment.views} <div className="text-right">Dated: {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}</div>
+                            Views: {this.state.assignment.views} <div className="text-right">On: {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}</div>
                             <br />
                             <br />
                             {comments}

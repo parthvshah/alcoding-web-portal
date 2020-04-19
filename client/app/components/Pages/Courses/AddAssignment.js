@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import AssignmentCard from '../Assignments/AssignmentCard';
+import { _API_CALL } from './../../../Utils/api';
 import { ToastContainer, ToastStore } from 'react-toasts';
 
 class AssignmentAdd extends Component {
@@ -44,7 +45,8 @@ class AssignmentAdd extends Component {
                 showDescription:false
             });
         }
-        var token = localStorage.getItem('token')
+        var userID = localStorage.getItem('user_id');
+        var token = localStorage.getItem('token');
         ///api/assignments/:courseID/assignments
         var body = {
             order: "chronological",
@@ -72,6 +74,21 @@ class AssignmentAdd extends Component {
                 console.log('Error2: ', error);
                 ToastStore.error('Server error!');
             });
+
+            var apiPath = '/api/account/' + userID + '/details';
+            _API_CALL(apiPath, "GET", {}, token)
+                .then(response => {
+                    var data = response.data;
+                    self.setState({ isLoading: false });
+                    self.setState({
+                        usn: data.user.usn,
+                        name: data.user.name.firstName + " " + data.user.name.lastName,
+                        badge: data.user.badge
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                })
     }
     handleNameChange(e) {
         this.setState({
@@ -140,6 +157,7 @@ class AssignmentAdd extends Component {
         data.courseID = params.courseID;
         // data.maxMarks = self.state.maxMarks;
         data.details = self.state.details;
+        data.badge = self.state.badge;
         data.tags = self.state.tags;
         data.resourcesUrl = self.state.resourcesUrl;
         // var duration = { startDate: self.state.startDate, endDate: self.state.endDate }

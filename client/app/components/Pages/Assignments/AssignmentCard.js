@@ -139,7 +139,7 @@ class AssignmentCard extends Component {
     const profContent = (
       <div>
         <div className={cardClassName}>
-          <div className="card-title" style={{textAlign: "center"}}>Views: {this.props.views} +{this.props.upVotes} -{this.props.downVotes}<h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
+          <div className="card-title" style={{textAlign: "center"}}>Views: {this.props.views} (+{this.props.upVotes} -{this.props.downVotes})<h3><i>{this.props.uniqueID}</i>: {this.props.name}</h3></div>
           <div className="card-body text-left">
             Description: {this.props.details}<br />
             {/* Type: {this.props.type}<br />

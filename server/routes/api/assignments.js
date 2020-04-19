@@ -97,6 +97,7 @@ module.exports = (app) => {
         var assignmentID = req.body.assignmentID;
         var text = req.body.text;
         var username = req.body.username;
+        var badge = req.body.badge;
 
         if(!assignmentID) {
             return res.status(400).send({
@@ -116,9 +117,19 @@ module.exports = (app) => {
                 message: "Error: username is required."
             });
         }
+
+        var decidedBadge = "";
+        if(badge=="professor"){
+            decidedBadge = "professor";
+        }
+        else{
+            decidedBadge = "student";
+        }
+
         var newComment = {
             text: text,
-            username: username
+            username: username,
+            badge: decidedBadge
         };
 
         Assignment.findOneAndUpdate({
@@ -513,6 +524,9 @@ module.exports = (app) => {
             assignment.details = req.body.details;
             // assignment.maxMarks = req.body.maxMarks;
             assignment.tags = req.body.tags;
+            if(req.body.badge == "professor"){
+                assignment.badge = "professor";
+            }
             assignment.resourcesUrl = req.body.resourcesUrl;
             // assignment.duration.startDate = req.body.startDate;
             // assignment.duration.endDate = req.body.endDate;

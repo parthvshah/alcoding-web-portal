@@ -59,6 +59,10 @@ const AssignmentSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  badge:{
+    type: String,
+    default: "student"
+  },
   submissions: [{
     user: {
       type: Schema.Types.ObjectId,
@@ -84,6 +88,10 @@ const AssignmentSchema = new mongoose.Schema({
     createdOn: {
       type: Date,
       default: Date.now()
+    },
+    badge: {
+      type: String,
+      default: "student"
     }
 
   }],
