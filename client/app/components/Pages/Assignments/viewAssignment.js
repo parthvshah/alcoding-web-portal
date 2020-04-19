@@ -5,7 +5,7 @@ import CommentCard from './CommentCard';
 import { _API_CALL } from './../../../Utils/api';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowAltCircleUp, faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons'
+import { faArrowAltCircleUp, faArrowAltCircleDown, faArchive,  faGraduationCap, faUserTie} from '@fortawesome/free-solid-svg-icons'
 
 
 export default class viewAssignment extends Component {
@@ -171,13 +171,14 @@ export default class viewAssignment extends Component {
     render() {
         let content;
         let comments;
+        let archiveTag;
 
         if(this.state.assignment.comments){
             comments = (
                 <div>
                     {
                         this.state.assignment.comments.map(function (each) {
-                            return <CommentCard text={each.text} username={each.username} createdOn={each.createdOn} />
+                            return <CommentCard key={each.createdOn} text={each.text} username={each.username} createdOn={each.createdOn} />
                         })
                     }
                 </div>
@@ -186,6 +187,21 @@ export default class viewAssignment extends Component {
         else{
             comments = (<div></div>);
         }
+
+        if(this.state.assignment.isArchived){
+        
+            archiveTag = (
+                <div className="text-right"><FontAwesomeIcon icon={faArchive} /> From Archives</div>
+            );
+        
+        }
+        else{
+            archiveTag = (
+                <div></div>
+            );
+        
+        }
+        
 
         const Content = (
             <div>
@@ -204,6 +220,7 @@ export default class viewAssignment extends Component {
                                 </button>
                             
                             </div>
+                            {archiveTag}
                             <br />
                             <br />
 
