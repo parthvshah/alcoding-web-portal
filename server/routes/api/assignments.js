@@ -186,6 +186,36 @@ module.exports = (app) => {
                 message: 'courseID not in parameters'
             });
         }
+        var order = req.body.order;
+        if (!order) {
+            return res.status(400).send({
+                success: false,
+                message: 'order not in body'
+            });
+        };
+        var reverse = req.body.reverse;
+        if (!reverse) {
+            return res.status(400).send({
+                success: false,
+                message: 'reverse flag not found in body'
+            });
+        }
+        sort_order = ""
+        if(order=="chronological"){
+            sort_order = "createdOn";
+        }
+        else if(order=="upvotes"){
+            sort_order = "upvotes";
+        }
+        else if(order=="downvotes"){
+            sort_order = "downvotes";
+        }
+        else if(order=="views"){
+            sort_order = "views";
+        }
+        if(reverse=="T"){
+            sort_order = "-"+sort_order;
+        }
         Course.find({
             _id: courseID,
             isDeleted: false
@@ -202,10 +232,7 @@ module.exports = (app) => {
                     message: 'Error: No course found.'
                 });
             }
-            Assignment.find({
-                course: courseID,
-                isDeleted: false
-            }, (err, assignments) => {
+            Assignment.find({course: courseID, isDeleted: false}, null, {sort : sort_order}, (err, assignments) => {
                 if (err) {
                     return res.status(500).send({
                         success: false,
@@ -693,6 +720,8 @@ module.exports = (app) => {
     app.post('/api/posts/search', function (req, res) {
         // get search keyword from body
         keyword = req.body.keyword;
+        order = req.body.order;
+        reverse = req.body.reverse;
         if(!keyword) {
             console.log('Error Keyword cannot be blank.')
             return res.status(400).send({
@@ -700,7 +729,37 @@ module.exports = (app) => {
                 message: 'Error Keyword cannot be blank.'
             });
         };
-        Assignment.find({$text:{$search: "\""+keyword+"\"" }},null,{sort:{timestamp:-1}}, (err, assignmentslist) => {
+        if(!order) {
+            console.log('Error Order cannot be blank.')
+            return res.status(400).send({
+                success: false,
+                message: 'Error Order cannot be blank.'
+            });
+        };
+        if(!reverse) {
+            console.log('Error Reverse flag cannot be blank.')
+            return res.status(400).send({
+                success: false,
+                message: 'Error Reverse flag cannot be blank.'
+            });
+        };
+        sort_order = ""
+        if(order=="chronological"){
+            sort_order = "createdOn";
+        }
+        else if(order=="upvotes"){
+            sort_order = "upvotes";
+        }
+        else if(order=="downvotes"){
+            sort_order = "downvotes";
+        }
+        else if(order=="views"){
+            sort_order = "views";
+        }
+        if(reverse=="T"){
+            sort_order = "-"+sort_order;
+        }
+        Assignment.find({$text:{$search: "\""+keyword+"\"" }},null,{sort:sort_order}, (err, assignmentslist) => {
             if (err) {
                 console.log('Error Server find error')
                 return res.status(500).send({
