@@ -211,7 +211,10 @@ export default class viewAssignment extends Component {
                             
                             <br />
                             <br />
-                            Views: {this.state.assignment.views} - {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}
+                            Tags: <strong><i>{this.state.assignment.tags}</i></strong>
+                            <br />
+                            Views: {this.state.assignment.views} <div className="text-right">Dated: {format(this.state.assignment.createdOn, 'MMMM Do, YYYY H:mma')}</div>
+                            <br />
                             <br />
                             {comments}
                             {/* Type: {this.state.assignment.type}<br />

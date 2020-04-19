@@ -12,6 +12,7 @@ class AssignmentAdd extends Component {
             uniqueID: '',
             type: '',
             details: '',
+            tags: '',
             maxMarks: undefined,
             resourcesUrl: '',
             startDate: '',
@@ -32,6 +33,7 @@ class AssignmentAdd extends Component {
         this.handleURLChange = this.handleURLChange.bind(this);
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
+        this.handleTagsChange = this.handleTagsChange.bind(this);
     }
     componentDidMount() {
         var self = this;
@@ -44,8 +46,14 @@ class AssignmentAdd extends Component {
         }
         var token = localStorage.getItem('token')
         ///api/assignments/:courseID/assignments
-        axios.get(`/api/assignments/${params.courseID}/assignments`, {
+        var body = {
+            order: "chronological",
+            reverse: "T"
+        };
+        console.log(body);
+        axios.post(`/api/assignments/${params.courseID}/assignments`, body, {
             headers: {
+                'Content-Type': 'application/json',
                 'x-access-token': token,
             }
         }).then(function (response) {
@@ -105,6 +113,11 @@ class AssignmentAdd extends Component {
             endDate: e.target.value
         })
     }
+    handleTagsChange(e) {
+        this.setState({
+            tags: e.target.value
+        })
+    }
     reload() {
         window.location.reload()
     }
@@ -127,6 +140,7 @@ class AssignmentAdd extends Component {
         data.courseID = params.courseID;
         // data.maxMarks = self.state.maxMarks;
         data.details = self.state.details;
+        data.tags = self.state.tags;
         data.resourcesUrl = self.state.resourcesUrl;
         // var duration = { startDate: self.state.startDate, endDate: self.state.endDate }
         // data.duration = duration;
@@ -187,6 +201,10 @@ class AssignmentAdd extends Component {
                         <input type="date" className="form-control" placeholder="End Date" value={this.state.endDate} onChange={this.handleEndDateChange}/>
                     </div> */}
                     <div className="form-group text-left">
+                        <h6>Tags</h6>
+                        <input type='text' className="form-control" placeholder="Tags" value={this.state.tags} onChange={this.handleTagsChange} />
+                    </div>
+                    <div className="form-group text-left">
                         <h6>Resources</h6>
                         <input type='text' className="form-control" placeholder="URLs" value={this.state.resourcesUrl} onChange={this.handleURLChange} />
                     </div>
@@ -197,7 +215,7 @@ class AssignmentAdd extends Component {
             <div>
                 {
                     this.state.assignments.map(function (each) {
-                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} views={each.views} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
+                        return <AssignmentCard key={each.uniqueID} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} views={each.views} isSearch={true} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
                     })
                 }
             </div>

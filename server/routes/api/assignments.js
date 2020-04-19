@@ -178,7 +178,8 @@ module.exports = (app) => {
         });
     })
 
-    app.get('/api/assignments/:courseID/assignments', function (req, res) {
+    // order
+    app.post('/api/assignments/:courseID/assignments', function (req, res) {
         var courseID = req.params.courseID;
         if (!courseID) {
             return res.status(400).send({
@@ -511,6 +512,7 @@ module.exports = (app) => {
             // assignment.type = req.body.type;
             assignment.details = req.body.details;
             // assignment.maxMarks = req.body.maxMarks;
+            assignment.tags = req.body.tags;
             assignment.resourcesUrl = req.body.resourcesUrl;
             // assignment.duration.startDate = req.body.startDate;
             // assignment.duration.endDate = req.body.endDate;
