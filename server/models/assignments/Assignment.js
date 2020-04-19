@@ -52,6 +52,13 @@ const AssignmentSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  tags: {
+    type: String,
+  },
+  isArchived: {
+    type: Boolean,
+    default: false
+  },
   submissions: [{
     user: {
       type: Schema.Types.ObjectId,
@@ -89,5 +96,5 @@ const AssignmentSchema = new mongoose.Schema({
     default: false
   }
 });
-AssignmentSchema.index({name:"text",details:"text","comments.text":"text"});
+AssignmentSchema.index({name: "text", details: "text", tags: "text", "comments.text": "text"});
 module.exports = mongoose.model('Assignment', AssignmentSchema);

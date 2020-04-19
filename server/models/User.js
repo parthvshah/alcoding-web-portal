@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema({
       default: Date.now()
     }
   },
+  badge: {
+    type: String,
+    default: "student"
+  },
   contender: {
     // Contains mutable info
     rating: {
