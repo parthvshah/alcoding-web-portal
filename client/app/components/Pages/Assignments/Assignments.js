@@ -14,10 +14,14 @@ class Assignments extends Component {
       role: "student",
       assignments: [],
       searchKey: '',
+      order: '',
+      reverse: '',
       searchAssignments: [],
     };
     this.search = this.search.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleReverseChange = this.handleReverseChange.bind(this);
+    // this.handleTypeChange = this.handleTypeChange(this);
   }
   componentDidMount() {
     var self = this;
@@ -88,7 +92,8 @@ class Assignments extends Component {
               }
               var data = response.data;
               self.setState({
-                assignments: self.state.assignments.concat(data.assignments.assignments)
+                assignments: self.state.assignments.concat(data.assignments.assignments),
+                reverse: "T"
               });
               console.log(response.data);
               // ToastStore.success('Successfully updated!');
@@ -108,6 +113,31 @@ class Assignments extends Component {
   })
   }
 
+  // handleTypeChange(event) {
+  //   var val = event.currentTarget.querySelector("#type").value;
+  //   console.log(val);
+
+  //   this.setState({
+  //     order: val
+  //     });
+  // }
+  
+  handleReverseChange(event) {
+    var val = event.target.querySelector("input").value;
+    // console.log(val);
+    if(val=="T" || val=="F"){
+      this.setState({
+        reverse: val
+        });
+    }
+    else{
+      this.setState({
+          order: val
+      });
+    }
+  }
+
+
   search(){
     event.preventDefault();
     var self = this;
@@ -120,7 +150,10 @@ class Assignments extends Component {
       }
     }
     var data = {
-      keyword: this.state.searchKey
+      keyword: this.state.searchKey,
+      order: this.state.order,
+      reverse: this.state.reverse
+
     };
     console.log(data);
     var apiPath = '/api/posts/search';
@@ -164,6 +197,58 @@ class Assignments extends Component {
             <div className="card-body text-left">
             <input type="text" className="form-control" placeholder="Search" onChange={this.handleSearchChange}/>
             <br />
+
+            <div className="btn-group btn-group-toggle" data-toggle="buttons">
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio" 
+                    id="type" 
+                    value="chronological"
+                    autoComplete="off"
+                    /> Chronological
+            </label>
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio"
+                    id="type" 
+                    value="upvotes"
+                    autoComplete="off"
+                    /> Up Votes
+            </label>
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio"
+                    id="type" 
+                    value="downvotes"
+                    autoComplete="off"
+                    /> Down Votes
+            </label>
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio"
+                    id="type" 
+                    value="views"
+                    autoComplete="off"
+                    /> Views
+            </label>
+            </div>
+
+            <br />
+            <br />
+
+            <div className="btn-group btn-group-toggle" data-toggle="buttons">
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio" 
+                    id="rev" 
+                    value="T"
+                    autoComplete="off"
+                    /> Normal
+            </label>
+            <label className="btn btn-secondary btn-dark" onClick={this.handleReverseChange}>
+            <input type="radio"
+                    id="rev" 
+                    value="F"
+                    autoComplete="off"
+                    /> Reversed
+            </label>
+            </div>
+
             <div className="text-center"><button type="button" className="btn btn-dark w-20 mx-3" onClick={this.search}>Search</button></div>
           </div>
         </div>
