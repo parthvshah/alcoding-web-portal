@@ -35,6 +35,7 @@ class AssignmentAdd extends Component {
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleTagsChange = this.handleTagsChange.bind(this);
+        this.downloadPosts = this.downloadPosts.bind(this);
     }
     componentDidMount() {
         var self = this;
@@ -90,6 +91,22 @@ class AssignmentAdd extends Component {
                     console.log(error);
                 })
     }
+
+    downloadPosts(){
+        var self = this;
+        const {assignments} = self.state;
+        const fileName = "posts";
+        const json = JSON.stringify(assignments);
+        const blob = new Blob([json], {type: 'application/json'});
+        const href = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = href;
+        link.download = fileName + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     handleNameChange(e) {
         this.setState({
             name: e.target.value
@@ -261,7 +278,7 @@ class AssignmentAdd extends Component {
                     <div className='col-sm-5'>
                         <div className='card text-center bg-light'>
                             <div className='card-body '>
-                                {this.state.show ? click : <button type="button" className="btn btn-dark w-20 mx-3" onClick={this.showForm}>Add Post</button>}
+                                {this.state.show ? click : <div><button type="button" className="btn btn-dark w-20 mx-3" onClick={this.showForm}>Add Post</button><button type="button" className="btn btn-dark w-20 mx-3" onClick={this.downloadPosts}>Download Posts</button></div>}
                                 {this.state.show ? null : <button className="btn w-20 mx-3"><Link className='text-dark' to="/topics"> Back To Topics </Link></button>}
                                 {this.state.show ? <button type="submit" className="btn btn-dark mx-3 w-20 " onClick={this.onAdd}>Submit</button> : null}
                                 {this.state.show ? <button type="close" className="btn w-20 mx-3" onClick={this.closeForm}>Close</button> : null}
