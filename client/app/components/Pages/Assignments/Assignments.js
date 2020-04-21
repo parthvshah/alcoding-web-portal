@@ -13,6 +13,7 @@ class Assignments extends Component {
       courses: [],
       role: "student",
       assignments: [],
+      lessAssignments: [],
       searchKey: '',
       order: '',
       reverse: '',
@@ -21,7 +22,7 @@ class Assignments extends Component {
     this.search = this.search.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleReverseChange = this.handleReverseChange.bind(this);
-    // this.handleTypeChange = this.handleTypeChange(this);
+    this.renderMore = this.renderMore.bind(this);
   }
   componentDidMount() {
     var self = this;
@@ -95,6 +96,10 @@ class Assignments extends Component {
                 assignments: self.state.assignments.concat(data.assignments.assignments),
                 reverse: "T"
               });
+              var allAssignments = self.state.assignments;
+              self.setState({
+                lessAssignments: allAssignments.slice(0, 4)
+              });
               console.log(response.data);
               // ToastStore.success('Successfully updated!');
             })
@@ -113,14 +118,13 @@ class Assignments extends Component {
   })
   }
 
-  // handleTypeChange(event) {
-  //   var val = event.currentTarget.querySelector("#type").value;
-  //   console.log(val);
-
-  //   this.setState({
-  //     order: val
-  //     });
-  // }
+  renderMore(){
+    var self = this;
+    var allAssignments = self.state.assignments;
+    self.setState({
+      lessAssignments: allAssignments
+    });
+  }
   
   handleReverseChange(event) {
     var val = event.target.querySelector("input").value;
@@ -179,7 +183,7 @@ class Assignments extends Component {
       <div>
         {
           this.state.searchAssignments.length < 1 &&
-          <div className="lead text-center mb-2">Sorry, no results from search. Search using a keyword to explore.</div>
+          <div className="lead text-center mb-2">Sorry, no results from search. Search using a keyword to explore. If you wish to simply order all posts, search without a keyword.</div>
         }
         
         {
@@ -260,13 +264,16 @@ class Assignments extends Component {
           <div className="lead text-center mb-2">Sorry, no posts found.</div>
         }
         {
-          this.state.assignments.map(function (each) {
+          this.state.lessAssignments.map(function (each) {
             return <AssignmentCard key={each.uniqueID} isSearch={true} uniqueID={each.uniqueID} name={each.name} details={each.details} createdOn={each.createdOn} upVotes={each.upvotes} downVotes={each.downvotes} views={each.views} type={each.type} maxMarks={each.maxMarks} resourceUrl={each.resourceUrl} assignmentID={each._id} submissions={each.submissions} role='prof' />
           })
         }
-        
+        <button className="btn btn-link" onClick={this.renderMore}>See more</button>
 
         <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
+        <br />
+        <br />
+
         <ToastContainer store={ToastStore} position={ToastContainer.POSITION.BOTTOM_RIGHT} />
       </div>
     );

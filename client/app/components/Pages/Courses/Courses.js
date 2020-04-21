@@ -23,6 +23,7 @@ class CoursesAdd extends Component {
       hours: '',
       isCore: '',
       courses: [],
+      lessCourses: [],
       profRole: '',
       professorID: '',
       classes: [],
@@ -51,6 +52,7 @@ class CoursesAdd extends Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleisCoreChange = this.handleisCoreChange.bind(this);
     this.handleHoursChange = this.handleHoursChange.bind(this);
+    this.renderMore = this.renderMore.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +103,10 @@ class CoursesAdd extends Component {
       self.setState({ isLoading: false });
       self.setState({
         courses: self.state.courses.concat(data.courses)
+      });
+      var allCourses = self.state.courses;
+      self.setState({
+        lessCourses: allCourses.slice(0, 4)
       });
       console.log(response.data);
       ToastStore.success('Successfully updated!');
@@ -190,6 +196,14 @@ class CoursesAdd extends Component {
   }
   reload() {
     window.location.reload()
+  }
+
+  renderMore(){
+    var self = this;
+    var allCourses = self.state.courses;
+    self.setState({
+      lessCourses: allCourses
+    });
   }
 
   onAdd() {
@@ -353,11 +367,16 @@ class CoursesAdd extends Component {
               <div className="lead text-center mb-2">Sorry, no courses found.</div>
             }
             {
-              this.state.courses.map(function (each) {
+              this.state.lessCourses.map(function (each) {
                 return <CourseCard key={each.code} code={each.code} name={each.name} department={each.department} description={each.description} anchorDescription={each.anchorDescription} credits={each.credits} resourceUrl={each.resourceUrl} courseID={each._id} role='prof' />
               })
             }
+            <button className="btn btn-link" onClick={this.renderMore}>See more</button>
+
             <div className="text-center"><a href="/" className="btn btn-dark" role="button">Home</a></div>
+            <br/>
+            <br/>
+
           </div>
         </div>
         <div className='col-sm-5'>
