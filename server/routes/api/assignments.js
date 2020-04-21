@@ -738,13 +738,6 @@ module.exports = (app) => {
         keyword = req.body.keyword;
         order = req.body.order;
         reverse = req.body.reverse;
-        if(!keyword) {
-            console.log('Error Keyword cannot be blank.')
-            return res.status(400).send({
-                success: false,
-                message: 'Error Keyword cannot be blank.'
-            });
-        };
         if(!order) {
             console.log('Error Order cannot be blank.')
             return res.status(400).send({
@@ -775,30 +768,58 @@ module.exports = (app) => {
         if(reverse=="T"){
             sort_order = "-"+sort_order;
         }
-        Assignment.find({$text:{$search: "\""+keyword+"\"" }},null,{sort:sort_order}, (err, assignmentslist) => {
-            if (err) {
-                console.log('Error Server find error')
-                return res.status(500).send({
-                    success: false,
-                    message: 'Error Server find error',
-                    err : err
-                });
-            } else if (assignmentslist.length == 0) {
-                console.log('Keyword does not exist.')
-                return res.status(409).send({
-                    success: false,
-                    message: 'Keyword Not Found In Any Post.'
-                });
-            }
-            else {
-                console.log("Posts with keyword.");
-                return res.status(200).send({
-                    success: true,
-                    message: 'Posts Found.',
-                    assignments: assignmentslist
-                });
-            }
-        });
+        if(!keyword) {
+            Assignment.find({},null,{sort:sort_order}, (err, assignmentslist) => {
+                if (err) {
+                    console.log('Error Server find error')
+                    return res.status(500).send({
+                        success: false,
+                        message: 'Error Server find error',
+                        err : err
+                    });
+                } else if (assignmentslist.length == 0) {
+                    console.log('No Posts Found.')
+                    return res.status(409).send({
+                        success: false,
+                        message: 'No Posts Found.'
+                    });
+                }
+                else {
+                    console.log("All Posts.");
+                    return res.status(200).send({
+                        success: true,
+                        message: 'Posts Found.',
+                        assignments: assignmentslist
+                    });
+                }
+            });
+        }
+        else {
+            Assignment.find({$text:{$search: "\""+keyword+"\"" }},null,{sort:sort_order}, (err, assignmentslist) => {
+                if (err) {
+                    console.log('Error Server find error')
+                    return res.status(500).send({
+                        success: false,
+                        message: 'Error Server find error',
+                        err : err
+                    });
+                } else if (assignmentslist.length == 0) {
+                    console.log('Keyword does not exist.')
+                    return res.status(409).send({
+                        success: false,
+                        message: 'Keyword Not Found In Any Post.'
+                    });
+                }
+                else {
+                    console.log("Posts with keyword.");
+                    return res.status(200).send({
+                        success: true,
+                        message: 'Posts Found.',
+                        assignments: assignmentslist
+                    });
+                }
+            });
+        }
     });
 }
 
